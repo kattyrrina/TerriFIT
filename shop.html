@@ -1,0 +1,540 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>TerriFIT - Магазин</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="images/favicon.png">
+    <style>
+        .shop-header {
+            background: rgba(16,10,66,0.3);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .points-display {
+            background: linear-gradient(135deg, #f59e0b, #8b5cf6);
+            padding: 12px 25px;
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 20px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .shop-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .shop-card {
+            background: rgba(19,14,72,0.5);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(59,130,246,0.2);
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            height: 380px;
+        }
+
+            .shop-card:hover, .premium-card:hover {
+                transform: translateY(-5px);
+                border-color: #3b82f6;
+                box-shadow: 0 10px 30px rgba(59,130,246,0.2);
+            }
+
+            .shop-card.purchased, .premium-card.opened {
+                border-color: #64748b;
+                background: rgba(30,30,50,0.5);
+            }
+
+        .shop-card-image, .premium-card-image {
+            height: 140px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+            .shop-card-image i, .premium-card-image i {
+                font-size: 60px;
+                color: white;
+            }
+
+        .shop-card-content, .premium-card-content {
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+            .shop-card-content h3, .premium-card-content h3 {
+                font-size: 18px;
+                font-weight: 600;
+                color: #f8fafc;
+                margin-bottom: 10px;
+            }
+
+            .shop-card-content p, .premium-card-content p {
+                font-size: 14px;
+                color: #94a3b8;
+                margin-bottom: 15px;
+                line-height: 1.5;
+                flex: 1;
+            }
+
+        .shop-card-price, .premium-card-price {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #f59e0b;
+            font-weight: 700;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        .buy-btn, .unlock-btn {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+        }
+
+            .buy-btn:hover:not(:disabled), .unlock-btn:hover:not(:disabled) {
+                transform: scale(1.02);
+                box-shadow: 0 5px 15px rgba(59,130,246,0.3);
+            }
+
+            .buy-btn.disabled, .buy-btn:disabled,
+            .unlock-btn.disabled, .unlock-btn:disabled {
+                background: #475569;
+                cursor: not-allowed;
+                opacity: 0.5;
+            }
+
+        .purchased-label, .opened-label {
+            background: #334155;
+            color: #cbd5e1;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 16px;
+            font-weight: 600;
+            border: 1px solid #475569;
+        }
+
+            .purchased-label i, .opened-label i {
+                margin-right: 5px;
+                color: #94a3b8;
+            }
+
+        .purchased-section, .opened-section {
+            background: rgba(16,10,66,0.2);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(100,116,139,0.3);
+        }
+
+            .purchased-section h2, .opened-section h2 {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                color: #cbd5e1;
+                margin-bottom: 20px;
+                font-size: 22px;
+            }
+
+        .purchased-grid, .opened-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .purchased-card, .opened-card {
+            background: rgba(30,30,50,0.5);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #475569;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .purchased-card-image, .opened-card-image {
+            height: 100px;
+            background: #334155;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+            .purchased-card-image i, .opened-card-image i {
+                font-size: 40px;
+                color: #94a3b8;
+            }
+
+        .purchased-card-content, .opened-card-content {
+            padding: 15px;
+        }
+
+            .purchased-card-content h4, .opened-card-content h4 {
+                font-size: 16px;
+                color: #f8fafc;
+                margin-bottom: 5px;
+            }
+
+            .purchased-card-content p, .opened-card-content p {
+                font-size: 12px;
+                color: #94a3b8;
+                margin-bottom: 10px;
+            }
+
+        .purchased-card-footer, .opened-card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .purchased-price, .opened-price {
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+            .purchased-price i, .opened-price i {
+                color: #f59e0b;
+            }
+
+        .use-btn, .open-btn {
+            background: #334155;
+            color: #cbd5e1;
+            border: 1px solid #475569;
+            border-radius: 6px;
+            padding: 6px 12px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+            .use-btn:hover, .open-btn:hover {
+                background: #475569;
+                color: white;
+            }
+
+        .empty-purchased, .empty-content {
+            text-align: center;
+            padding: 40px;
+            color: #94a3b8;
+            font-size: 16px;
+            background: rgba(19,14,72,0.3);
+            border-radius: 12px;
+        }
+
+        .modal-content {
+            text-align: center;
+        }
+
+        .modal-icon {
+            font-size: 60px;
+            color: #10b981;
+            margin-bottom: 20px;
+        }
+
+        .modal-code {
+            background: rgba(19,14,72,0.7);
+            border: 2px dashed #8b5cf6;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            font-size: 24px;
+            font-weight: 700;
+            color: #f59e0b;
+            letter-spacing: 3px;
+        }
+
+        .btn-copy {
+            background: rgba(139,92,246,0.2);
+            color: #8b5cf6;
+            border: 1px solid #8b5cf6;
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+            .btn-copy:hover {
+                background: #8b5cf6;
+                color: white;
+            }
+
+        @media (max-width: 768px) {
+            .shop-header, .premium-header {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .shop-grid, .premium-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <div class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-title">ОСНОВНОЕ</div>
+                <a href="index.html" class="sidebar-item">
+                    <img src="images/profile.png" alt="Профиль" class="sidebar-icon">
+                    <span>Профиль</span>
+                </a>
+                <a href="notifications.html" class="sidebar-item" style="position: relative;">
+                    <img src="images/notifications.png" alt="Уведомления" class="sidebar-icon">
+                    <span>Уведомления</span>
+                    <span class="notification-badge" id="sidebar-notification-badge" style="display: none;"></span>
+                </a>
+                <a href="privacy.html" class="sidebar-item">
+                    <img src="images/privacy.png" alt="Конфиденциальность" class="sidebar-icon">
+                    <span>Конфиденциальность</span>
+                </a>
+                <div class="sidebar-item" id="logout-btn">
+                    <img src="images/logout.png" alt="Выйти" class="sidebar-icon">
+                    <span>Выйти</span>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">СОЦИАЛЬНОЕ</div>
+                <a href="challenges.html" class="sidebar-item">
+                    <img src="images/challenges.png" alt="Челленджи" class="sidebar-icon">
+                    <span>Челленджи</span>
+                </a>
+                <a href="achievements.html" class="sidebar-item">
+                    <img src="images/achievements.png" alt="Достижения" class="sidebar-icon">
+                    <span>Достижения</span>
+                </a>
+                <a href="leaderboard.html" class="sidebar-item">
+                    <img src="images/leaderboard.png" alt="Лидеры" class="sidebar-icon">
+                    <span>Лидеры</span>
+                </a>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">МАГАЗИН</div>
+                <a href="shop.html" class="sidebar-item">
+                    <img src="images/shop.png" alt="Магазин" class="sidebar-icon">
+                    <span>Магазин</span>
+                </a>
+                <a href="premium.html" class="sidebar-item">
+                    <img src="images/premium.png" alt="Премиум" class="sidebar-icon">
+                    <span>Премиум</span>
+                </a>
+                <a href="transactions.html" class="sidebar-item">
+                    <img src="images/transactions.png" alt="Все операции" class="sidebar-icon">
+                    <span>Все операции</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="header">
+                <div class="header-top">
+                    <a href="index.html" class="logo">
+                        <img src="images/logo.png" alt="logo">
+                    </a>
+                    <div class="burger-menu" id="burger-menu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+                <div class="search-bar" id="global-search">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="global-search-input" placeholder="Поиск товаров...">
+                    <div class="search-results-dropdown" id="search-results" style="display: none;"></div>
+                </div>
+                <div class="user-menu">
+                    <div class="points-header">
+                        <i class="fas fa-star" style="color: #f59e0b;"></i>
+                        <span id="header-points" class="user-points">0</span>
+                    </div>
+                    <a href="index.html" class="user-avatar-link" id="header-avatar-link">
+                        <div class="user-avatar-header" id="header-avatar">
+                            <img src="images/man.png" alt="avatar" class="avatar-img">
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="shop-header">
+                <h1 class="page-title">
+                    <i class="fas fa-store"></i>
+                    Магазин наград
+                </h1>
+                <div class="points-display">
+                    <i class="fas fa-star"></i>
+                    <span id="user-points" class="user-points">0</span>
+                </div>
+            </div>
+
+            <div class="purchased-section">
+                <h2>
+                    <i class="fas fa-gift"></i>
+                    Мои покупки
+                </h2>
+                <div id="purchased-items" class="purchased-items">
+                </div>
+            </div>
+
+            <div id="shop-items-container">
+            </div>
+        </div>
+    </div>
+    <!-- ВЫЕЗЖАЮЩЕЕ МЕНЮ СВЕРХУ ВНИЗ НА ВЕСЬ ЭКРАН -->
+    <div class="mobile-menu-full" id="mobile-menu-full">
+        <div class="mobile-menu-header">
+            <div class="mobile-menu-logo">
+                <img src="images/logo.png" alt="logo">
+            </div>
+            <div class="mobile-menu-close" id="mobile-menu-close">
+                <i class="fas fa-times"></i>
+            </div>
+        </div>
+        <div class="mobile-menu-items">
+            <div class="mobile-menu-section">
+                <div class="mobile-menu-section-title">ОСНОВНОЕ</div>
+                <a href="index.html" class="mobile-menu-item">
+                    <img src="images/profile.png" alt="Профиль" class="mobile-menu-icon">
+                    <span>Профиль</span>
+                </a>
+                <a href="notifications.html" class="mobile-menu-item" style="position: relative;">
+                    <img src="images/notifications.png" alt="Уведомления" class="mobile-menu-icon">
+                    <span>Уведомления</span>
+                    <span class="mobile-notification-badge" id="mobile-notification-badge" style="display: none;"></span>
+                </a>
+                <a href="privacy.html" class="mobile-menu-item">
+                    <img src="images/privacy.png" alt="Конфиденциальность" class="mobile-menu-icon">
+                    <span>Конфиденциальность</span>
+                </a>
+                <div class="mobile-menu-item" id="mobile-logout-btn">
+                    <img src="images/logout.png" alt="Выйти" class="mobile-menu-icon">
+                    <span>Выйти</span>
+                </div>
+            </div>
+            <div class="mobile-menu-section">
+                <div class="mobile-menu-section-title">СОЦИАЛЬНОЕ</div>
+                <a href="challenges.html" class="mobile-menu-item">
+                    <img src="images/challenges.png" alt="Челленджи" class="mobile-menu-icon">
+                    <span>Челленджи</span>
+                </a>
+                <a href="achievements.html" class="mobile-menu-item">
+                    <img src="images/achievements.png" alt="Достижения" class="mobile-menu-icon">
+                    <span>Достижения</span>
+                </a>
+                <a href="leaderboard.html" class="mobile-menu-item">
+                    <img src="images/leaderboard.png" alt="Лидеры" class="mobile-menu-icon">
+                    <span>Лидеры</span>
+                </a>
+            </div>
+            <div class="mobile-menu-section">
+                <div class="mobile-menu-section-title">МАГАЗИН</div>
+                <a href="shop.html" class="mobile-menu-item">
+                    <img src="images/shop.png" alt="Магазин" class="mobile-menu-icon">
+                    <span>Магазин</span>
+                </a>
+                <a href="premium.html" class="mobile-menu-item">
+                    <img src="images/premium.png" alt="Премиум" class="mobile-menu-icon">
+                    <span>Премиум</span>
+                </a>
+                <a href="transactions.html" class="mobile-menu-item">
+                    <img src="images/transactions.png" alt="Все операции" class="mobile-menu-icon">
+                    <span>Все операции</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="purchase-modal" style="display: none;">
+        <div class="modal">
+            <button class="modal-close"><i class="fas fa-times"></i></button>
+            <div class="modal-content">
+                <div class="modal-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h2>Покупка совершена!</h2>
+                <p>Вы успешно приобрели:</p>
+                <h3 id="purchase-item-name"></h3>
+                <p id="purchase-item-description"></p>
+                <div class="modal-code">
+                    <i class="fas fa-star"></i>
+                    <span id="purchase-item-price"></span> очков
+                </div>
+                <button class="btn-primary" onclick="document.getElementById('purchase-modal').style.display='none'">
+                    Отлично!
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="use-modal" style="display: none;">
+        <div class="modal">
+            <button class="modal-close"><i class="fas fa-times"></i></button>
+            <div class="modal-content">
+                <div class="modal-icon">
+                    <i class="fas fa-ticket-alt"></i>
+                </div>
+                <h2 id="use-item-name"></h2>
+
+                <div id="use-code-section">
+                    <p>Ваш уникальный код:</p>
+                    <div class="modal-code" id="use-item-code"></div>
+                    <button class="btn-copy" id="copy-code">
+                        <i class="fas fa-copy"></i> Скопировать код
+                    </button>
+                </div>
+
+                <div id="manager-section" style="display: none;">
+                    <div class="manager-message">
+                        <i class="fas fa-headset" style="font-size: 40px; color: #8b5cf6; margin-bottom: 15px;"></i>
+                        <p style="font-size: 16px; color: #e2e8f0; margin-bottom: 10px;">
+                            С вами свяжется наш менеджер для уточнения деталей
+                        </p>
+                        <p style="font-size: 14px; color: #94a3b8;">
+                            Ожидайте звонка в ближайшее время
+                        </p>
+                    </div>
+                </div>
+
+                <button class="btn-primary" style="margin-top: 20px;" onclick="document.getElementById('use-modal').style.display='none'">
+                    Закрыть
+                </button>
+            </div>
+        </div>
+    </div>
+    <script src="js/header.js"></script>
+    <script src="js/fitness-db.js"></script>
+    <script src="js/database.js"></script>
+    <script src="js/shop.js"></script>
+</body>
+</html>
+                       

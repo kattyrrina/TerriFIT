@@ -1,0 +1,687 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>TerriFIT - Уведомления</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="images/favicon.png">
+    <style>
+        .notifications-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(16,10,66,0.2);
+            border-radius: 24px;
+            padding: 30px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .notifications-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+            .notifications-header h1 {
+                font-size: 28px;
+                background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+        .clear-all {
+            background: rgba(239,68,68,0.1);
+            color: #ef4444;
+            border: 1px solid #ef4444;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+            .clear-all:hover {
+                background: #ef4444;
+                color: white;
+            }
+
+        .notifications-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .notification-day {
+            margin-bottom: 10px;
+        }
+
+        .day-header {
+            color: #8b5cf6;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid rgba(139,92,246,0.3);
+        }
+
+        .notification-item {
+            background: rgba(19,14,72,0.5);
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            border: 1px solid rgba(59,130,246,0.2);
+            transition: all 0.3s;
+            margin-bottom: 10px;
+        }
+
+            .notification-item.unread {
+                border-left: 4px solid #3b82f6;
+                background: rgba(59,130,246,0.1);
+            }
+
+            .notification-item.resolved {
+                opacity: 0.8;
+                border-color: #475569;
+            }
+
+        .notification-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #8b5cf6;
+        }
+
+        .notification-content {
+            flex: 1;
+        }
+
+        .notification-text {
+            color: #f8fafc;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+
+            .notification-text strong {
+                color: #8b5cf6;
+            }
+
+        .notification-challenge {
+            font-size: 14px;
+            color: #f59e0b;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .challenge-tag {
+            background: rgba(245,158,11,0.15);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            border: 1px solid rgba(245,158,11,0.3);
+        }
+
+        .notification-time {
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        .notification-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .btn-accept {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+            .btn-accept:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(16,185,129,0.3);
+            }
+
+        .btn-decline {
+            background: rgba(239,68,68,0.2);
+            color: #ef4444;
+            border: 1px solid #ef4444;
+            border-radius: 8px;
+            padding: 8px 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+            .btn-decline:hover {
+                background: #ef4444;
+                color: white;
+            }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-accepted {
+            background: rgba(16,185,129,0.15);
+            color: #10b981;
+            border: 1px solid #10b981;
+        }
+
+        .status-declined {
+            background: rgba(239,68,68,0.15);
+            color: #ef4444;
+            border: 1px solid #ef4444;
+        }
+
+        .empty-notifications {
+            text-align: center;
+            padding: 80px 20px;
+            color: #94a3b8;
+            background: rgba(19,14,72,0.3);
+            border-radius: 16px;
+            border: 1px dashed rgba(255,255,255,0.1);
+        }
+
+            .empty-notifications i {
+                font-size: 60px;
+                color: #475569;
+                margin-bottom: 20px;
+            }
+        /* Для самой маленькой мобильной версии (до 480px) - страница уведомлений */
+        @media (max-width: 480px) {
+            .notifications-container {
+                padding: 15px !important;
+            }
+
+            .notifications-header {
+                flex-direction: column !important;
+                align-items: flex-start !important;
+                gap: 10px !important;
+                margin-bottom: 20px !important;
+            }
+
+                .notifications-header h1 {
+                    font-size: 22px !important;
+                }
+
+            .clear-all {
+                padding: 6px 12px !important;
+                font-size: 12px !important;
+                width: 50% !important;
+                text-align: center !important;
+            }
+
+            .day-header {
+                font-size: 14px !important;
+                margin-bottom: 10px !important;
+            }
+
+            /* Карточка уведомления - вертикальное расположение */
+            .notification-item {
+                padding: 12px !important;
+                gap: 10px !important;
+                flex-direction: column !important;
+                align-items: stretch !important;
+                border-radius: 14px !important;
+                margin-bottom: 8px !important;
+            }
+
+            /* Аватар - сверху по центру, уменьшенный */
+            .notification-avatar {
+                width: 45px !important;
+                height: 45px !important;
+                align-self: center !important;
+                margin-bottom: 5px !important;
+            }
+
+            /* Текст уведомления */
+            .notification-text {
+                font-size: 13px !important;
+                text-align: center !important;
+                margin-bottom: 8px !important;
+            }
+
+            /* Информация о челлендже */
+            .notification-challenge {
+                justify-content: center !important;
+                gap: 8px !important;
+                margin-bottom: 10px !important;
+            }
+
+            .challenge-tag {
+                font-size: 10px !important;
+                padding: 3px 8px !important;
+            }
+
+            /* Время */
+            .notification-time {
+                text-align: center !important;
+                font-size: 10px !important;
+                margin-bottom: 8px !important;
+            }
+
+            /* Кнопки действий */
+            .notification-actions {
+                justify-content: center !important;
+                gap: 12px !important;
+                margin-top: 5px !important;
+            }
+
+            .btn-accept, .btn-decline {
+                padding: 6px 16px !important;
+                font-size: 12px !important;
+                flex: 1 !important;
+                text-align: center !important;
+            }
+
+            /* Статус (Принято/Отклонено) */
+            .status-badge {
+                align-self: center !important;
+                font-size: 10px !important;
+                padding: 3px 10px !important;
+            }
+
+            /* Пустое состояние */
+            .empty-notifications {
+                padding: 40px 20px !important;
+            }
+
+                .empty-notifications i {
+                    font-size: 40px !important;
+                }
+
+                .empty-notifications p {
+                    font-size: 13px !important;
+                }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <div class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-title">ОСНОВНОЕ</div>
+                <a href="index.html" class="sidebar-item">
+                    <img src="images/profile.png" alt="Профиль" class="sidebar-icon">
+                    <span>Профиль</span>
+                </a>
+                <a href="notifications.html" class="sidebar-item" style="position: relative;">
+                    <img src="images/notifications.png" alt="Уведомления" class="sidebar-icon">
+                    <span>Уведомления</span>
+                    <span class="notification-badge" id="sidebar-notification-badge" style="display: none;"></span>
+                </a>
+                <a href="privacy.html" class="sidebar-item">
+                    <img src="images/privacy.png" alt="Конфиденциальность" class="sidebar-icon">
+                    <span>Конфиденциальность</span>
+                </a>
+                <div class="sidebar-item" id="logout-btn">
+                    <img src="images/logout.png" alt="Выйти" class="sidebar-icon">
+                    <span>Выйти</span>
+                </div>
+            </div>
+            <div class="sidebar-section">
+                <div class="sidebar-title">СОЦИАЛЬНОЕ</div>
+                <a href="challenges.html" class="sidebar-item">
+                    <img src="images/challenges.png" alt="Челленджи" class="sidebar-icon">
+                    <span>Челленджи</span>
+                </a>
+                <a href="achievements.html" class="sidebar-item">
+                    <img src="images/achievements.png" alt="Достижения" class="sidebar-icon">
+                    <span>Достижения</span>
+                </a>
+                <a href="leaderboard.html" class="sidebar-item">
+                    <img src="images/leaderboard.png" alt="Лидеры" class="sidebar-icon">
+                    <span>Лидеры</span>
+                </a>
+            </div>
+            <div class="sidebar-section">
+                <div class="sidebar-title">МАГАЗИН</div>
+                <a href="shop.html" class="sidebar-item">
+                    <img src="images/shop.png" alt="Магазин" class="sidebar-icon">
+                    <span>Магазин</span>
+                </a>
+                <a href="premium.html" class="sidebar-item">
+                    <img src="images/premium.png" alt="Премиум" class="sidebar-icon">
+                    <span>Премиум</span>
+                </a>
+                <a href="transactions.html" class="sidebar-item">
+                    <img src="images/transactions.png" alt="Все операции" class="sidebar-icon">
+                    <span>Все операции</span>
+                </a>
+            </div>
+        </div>
+        <div class="mobile-menu-full" id="mobile-menu-full">
+            <div class="mobile-menu-header">
+                <a href="index.html" class="logo">
+                    <img src="images/logo.png" alt="logo">
+                </a>
+                <div class="mobile-menu-close" id="mobile-menu-close">
+                    <i class="fas fa-times"></i>
+                </div>
+            </div>
+            <div class="mobile-menu-items">
+                <div class="mobile-menu-section">
+                    <div class="mobile-menu-section-title">ОСНОВНОЕ</div>
+                    <a href="index.html" class="mobile-menu-item">
+                        <img src="images/profile.png" alt="Профиль" class="mobile-menu-icon">
+                        <span>Профиль</span>
+                    </a>
+                    <a href="notifications.html" class="mobile-menu-item" style="position: relative;">
+                        <img src="images/notifications.png" alt="Уведомления" class="mobile-menu-icon">
+                        <span>Уведомления</span>
+                        <span class="mobile-notification-badge" id="mobile-notification-badge" style="display: none;"></span>
+                    </a>
+                    <a href="privacy.html" class="mobile-menu-item">
+                        <img src="images/privacy.png" alt="Конфиденциальность" class="mobile-menu-icon">
+                        <span>Конфиденциальность</span>
+                    </a>
+                    <div class="mobile-menu-item" id="mobile-logout-btn">
+                        <img src="images/logout.png" alt="Выйти" class="mobile-menu-icon">
+                        <span>Выйти</span>
+                    </div>
+                </div>
+                <div class="mobile-menu-section">
+                    <div class="mobile-menu-section-title">СОЦИАЛЬНОЕ</div>
+                    <a href="challenges.html" class="mobile-menu-item">
+                        <img src="images/challenges.png" alt="Челленджи" class="mobile-menu-icon">
+                        <span>Челленджи</span>
+                    </a>
+                    <a href="achievements.html" class="mobile-menu-item">
+                        <img src="images/achievements.png" alt="Достижения" class="mobile-menu-icon">
+                        <span>Достижения</span>
+                    </a>
+                    <a href="leaderboard.html" class="mobile-menu-item">
+                        <img src="images/leaderboard.png" alt="Лидеры" class="mobile-menu-icon">
+                        <span>Лидеры</span>
+                    </a>
+                </div>
+                <div class="mobile-menu-section">
+                    <div class="mobile-menu-section-title">МАГАЗИН</div>
+                    <a href="shop.html" class="mobile-menu-item">
+                        <img src="images/shop.png" alt="Магазин" class="mobile-menu-icon">
+                        <span>Магазин</span>
+                    </a>
+                    <a href="premium.html" class="mobile-menu-item">
+                        <img src="images/premium.png" alt="Премиум" class="mobile-menu-icon">
+                        <span>Премиум</span>
+                    </a>
+                    <a href="transactions.html" class="mobile-menu-item">
+                        <img src="images/transactions.png" alt="Все операции" class="mobile-menu-icon">
+                        <span>Все операции</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="main-content">
+            <div class="header">
+                <div class="header-top">
+                    <a href="index.html" class="logo">
+                        <img src="images/logo.png" alt="logo">
+                    </a>
+                    <div class="burger-menu" id="burger-menu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+                <div class="user-menu">
+                    <div class="points-header">
+                        <i class="fas fa-star" style="color: #f59e0b;"></i>
+                        <span id="header-points" class="user-points">0</span>
+                    </div>
+                    <a href="index.html" class="user-avatar-link" id="header-avatar-link">
+                        <div class="user-avatar-header" id="header-avatar">
+                            <img src="images/man.png" alt="avatar" class="avatar-img">
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="notifications-container">
+                <div class="notifications-header">
+                    <h1>
+                        <i class="fas fa-bell"></i>
+                        Уведомления
+                    </h1>
+                    <button class="clear-all" id="clear-all">
+                        <i class="fas fa-trash"></i>
+                        Очистить все
+                    </button>
+                </div>
+
+                <div id="notifications-list" class="notifications-list">
+                    <!-- Уведомления загрузятся через JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/header.js"></script>
+    <script src="js/fitness-db.js"></script>
+    <script src="js/database.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const currentUser = window.fitnessDB.getCurrentUser();
+            if (!currentUser) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            loadNotifications();
+
+            document.getElementById('clear-all')?.addEventListener('click', clearAllNotifications);
+            document.getElementById('logout-btn')?.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.fitnessDB.logout();
+            });
+
+            function loadNotifications() {
+                const user = window.fitnessDB.getUserById(currentUser.id);
+                const notifications = user.notifications || [];
+
+                const container = document.getElementById('notifications-list');
+
+                if (notifications.length === 0) {
+                    container.innerHTML = `
+                <div class="empty-notifications">
+                    <i class="fas fa-bell-slash"></i>
+                    <p>У вас нет уведомлений</p>
+                </div>
+            `;
+                    updateNotificationBadge();
+                    return;
+                }
+
+                const grouped = {};
+
+                notifications.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+                notifications.forEach(n => {
+                    const date = new Date(n.date);
+                    const dayKey = date.toLocaleDateString('ru-RU', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    });
+
+                    if (!grouped[dayKey]) {
+                        grouped[dayKey] = [];
+                    }
+                    grouped[dayKey].push(n);
+                });
+
+                let html = '';
+
+                for (const [day, dayNotifications] of Object.entries(grouped)) {
+                    html += `<div class="notification-day">`;
+                    html += `<div class="day-header">${day}</div>`;
+
+                    dayNotifications.forEach(n => {
+                        const date = new Date(n.date);
+                        const timeStr = date.toLocaleTimeString('ru-RU', {
+                            hour: '2-digit',
+                            minute: '2-digit'
+                        });
+
+                        html += `
+                    <div class="notification-item ${n.read ? '' : 'unread'} ${n.status && n.status !== 'pending' ? 'resolved' : ''}" data-id="${n.id}">
+                        <img src="${getAvatarUrl(n.fromUserAvatar, n.fromUserGender)}" class="notification-avatar">
+                        <div class="notification-content">
+                            <div class="notification-text">
+                                <strong>${n.fromUserName}</strong> ${n.message}
+                            </div>
+                `;
+
+                        if (n.type === 'challenge_invite') {
+                            html += `
+                        <div class="notification-challenge">
+                            <span class="challenge-tag">
+                                <i class="fas fa-trophy"></i> ${n.challengeReward} очков
+                            </span>
+                            <span class="challenge-tag">
+                                <i class="fas fa-calendar"></i> ${n.challengeDuration} дней
+                            </span>
+                        </div>
+                    `;
+                        }
+
+                        html += `<div class="notification-time">${timeStr}</div>`;
+
+                        if (n.type === 'challenge_invite' && n.status === 'pending') {
+                            html += `
+                        <div class="notification-actions">
+                            <button class="btn-accept" onclick="respondToInvite(${n.id}, true)">
+                                <i class="fas fa-check"></i> Принять
+                            </button>
+                            <button class="btn-decline" onclick="respondToInvite(${n.id}, false)">
+                                <i class="fas fa-times"></i> Отклонить
+                            </button>
+                        </div>
+                    `;
+                        } else if (n.status === 'accepted') {
+                            html += `<div class="status-badge status-accepted">✓ Принято</div>`;
+                        } else if (n.status === 'declined') {
+                            html += `<div class="status-badge status-declined">✗ Отклонено</div>`;
+                        }
+
+                        html += `</div></div>`;
+                    });
+
+                    html += `</div>`;
+                }
+
+                container.innerHTML = html;
+                updateNotificationBadge();
+            }
+
+            window.respondToInvite = function (notificationId, accept) {
+                const user = window.fitnessDB.getUserById(currentUser.id);
+                const notification = user.notifications.find(n => n.id === notificationId);
+
+                if (!notification) return;
+
+                if (accept) {
+                    const challenge = window.AppDatabase.findChallengeById(notification.challengeId);
+
+                    if (challenge) {
+                        user.activeChallenges = user.activeChallenges || [];
+                        user.activeChallenges.push({
+                            id: challenge.id,
+                            title: challenge.title,
+                            description: challenge.description,
+                            participants: challenge.participants,
+                            duration: challenge.duration,
+                            total: challenge.duration,
+                            reward: challenge.reward,
+                            rewardRarity: challenge.rewardRarity,
+                            rewardRarityName: challenge.rewardRarityName,
+                            rewardId: challenge.rewardId,
+                            current: 0,
+                            joinedAt: new Date().toISOString(),
+                            status: 'active',
+                            invitedBy: notification.fromUserId
+                        });
+                    }
+                }
+
+                notification.status = accept ? 'accepted' : 'declined';
+                notification.read = true;
+
+                window.fitnessDB.updateUser(user.id, {
+                    notifications: user.notifications,
+                    activeChallenges: user.activeChallenges
+                });
+
+                loadNotifications();
+
+                if (typeof window.updateNotificationBadge === 'function') {
+                    window.updateNotificationBadge();
+                }
+
+                if (window.opener && !window.opener.closed && typeof window.opener.updateNotificationBadge === 'function') {
+                    window.opener.updateNotificationBadge();
+                }
+            };
+
+            function clearAllNotifications() {
+                if (confirm('Вы уверены, что хотите удалить все уведомления?')) {
+                    const user = window.fitnessDB.getUserById(currentUser.id);
+                    user.notifications = [];
+                    window.fitnessDB.updateUser(user.id, { notifications: [] });
+                    loadNotifications();
+                    updateNotificationBadge();
+
+                    if (window.opener && !window.opener.closed && typeof window.opener.updateNotificationBadge === 'function') {
+                        window.opener.updateNotificationBadge();
+                    }
+                }
+            }
+
+            function updateNotificationBadge() {
+                const user = window.fitnessDB.getUserById(currentUser.id);
+                if (!user) return;
+
+                const unreadCount = user.notifications?.filter(n => !n.read).length || 0;
+
+                const sidebarBadge = document.getElementById('sidebar-notification-badge');
+                if (sidebarBadge) {
+                    sidebarBadge.style.display = unreadCount > 0 ? 'block' : 'none';
+                }
+
+                const mobileBadge = document.getElementById('mobile-notification-badge');
+                if (mobileBadge) {
+                    mobileBadge.style.display = unreadCount > 0 ? 'block' : 'none';
+                }
+            }
+
+            function getAvatarUrl(avatar, gender) {
+                if (avatar && avatar.startsWith('data:image')) return avatar;
+                if (avatar) return `images/${avatar}`;
+                return gender === 'male' ? 'images/man.png' : 'images/woman.png';
+            }
+        });
+    </script>
+</body>
+</html>

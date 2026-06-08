@@ -1,0 +1,372 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>TerriFIT - Челленджи</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="images/favicon.png">
+</head>
+<body>
+    <div class="dashboard">
+        <div class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-title">ОСНОВНОЕ</div>
+                <a href="index.html" class="sidebar-item">
+                    <img src="images/profile.png" alt="Профиль" class="sidebar-icon">
+                    <span>Профиль</span>
+                </a>
+                <a href="notifications.html" class="sidebar-item" style="position: relative;">
+                    <img src="images/notifications.png" alt="Уведомления" class="sidebar-icon">
+                    <span>Уведомления</span>
+                    <span class="notification-badge" id="sidebar-notification-badge" style="display: none;"></span>
+                </a>
+                <a href="privacy.html" class="sidebar-item">
+                    <img src="images/privacy.png" alt="Конфиденциальность" class="sidebar-icon">
+                    <span>Конфиденциальность</span>
+                </a>
+                <div class="sidebar-item" id="logout-btn">
+                    <img src="images/logout.png" alt="Выйти" class="sidebar-icon">
+                    <span>Выйти</span>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">СОЦИАЛЬНОЕ</div>
+                <a href="challenges.html" class="sidebar-item">
+                    <img src="images/challenges.png" alt="Челленджи" class="sidebar-icon">
+                    <span>Челленджи</span>
+                </a>
+                <a href="achievements.html" class="sidebar-item">
+                    <img src="images/achievements.png" alt="Достижения" class="sidebar-icon">
+                    <span>Достижения</span>
+                </a>
+                <a href="leaderboard.html" class="sidebar-item">
+                    <img src="images/leaderboard.png" alt="Лидеры" class="sidebar-icon">
+                    <span>Лидеры</span>
+                </a>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">МАГАЗИН</div>
+                <a href="shop.html" class="sidebar-item">
+                    <img src="images/shop.png" alt="Магазин" class="sidebar-icon">
+                    <span>Магазин</span>
+                </a>
+                <a href="premium.html" class="sidebar-item">
+                    <img src="images/premium.png" alt="Премиум" class="sidebar-icon">
+                    <span>Премиум</span>
+                </a>
+                <a href="transactions.html" class="sidebar-item">
+                    <img src="images/transactions.png" alt="Все операции" class="sidebar-icon">
+                    <span>Все операции</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="header">
+                <div class="header-top">
+                    <a href="index.html" class="logo">
+                        <img src="images/logo.png" alt="logo">
+                    </a>
+                    <div class="burger-menu" id="burger-menu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="global-search-input" placeholder="Поиск челленджей...">
+                    <div class="search-results-dropdown" id="search-results" style="display: none;"></div>
+                </div>
+
+                <div class="user-menu">
+                    <div class="points-header">
+                        <i class="fas fa-star" style="color: #f59e0b;"></i>
+                        <span id="header-points" class="user-points">0</span>
+                    </div>
+                    <a href="index.html" class="user-avatar-link" id="header-avatar-link">
+                        <div class="user-avatar-header" id="header-avatar">
+                            <img src="images/man.png" alt="avatar" class="avatar-img">
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- ВЫЕЗЖАЮЩЕЕ МЕНЮ СВЕРХУ ВНИЗ НА ВЕСЬ ЭКРАН -->
+            <div class="mobile-menu-full" id="mobile-menu-full">
+                <div class="mobile-menu-header">
+                    <div class="mobile-menu-logo">
+                        <img src="images/logo.png" alt="logo">
+                    </div>
+                    <div class="mobile-menu-close" id="mobile-menu-close">
+                        <i class="fas fa-times"></i>
+                    </div>
+                </div>
+                <div class="mobile-menu-items">
+                    <div class="mobile-menu-section">
+                        <div class="mobile-menu-section-title">ОСНОВНОЕ</div>
+                        <a href="index.html" class="mobile-menu-item">
+                            <img src="images/profile.png" alt="Профиль" class="mobile-menu-icon">
+                            <span>Профиль</span>
+                        </a>
+                        <a href="notifications.html" class="mobile-menu-item" style="position: relative;">
+                            <img src="images/notifications.png" alt="Уведомления" class="mobile-menu-icon">
+                            <span>Уведомления</span>
+                            <span class="mobile-notification-badge" id="mobile-notification-badge" style="display: none;"></span>
+                        </a>
+                        <a href="privacy.html" class="mobile-menu-item">
+                            <img src="images/privacy.png" alt="Конфиденциальность" class="mobile-menu-icon">
+                            <span>Конфиденциальность</span>
+                        </a>
+                        <div class="mobile-menu-item" id="mobile-logout-btn">
+                            <img src="images/logout.png" alt="Выйти" class="mobile-menu-icon">
+                            <span>Выйти</span>
+                        </div>
+                    </div>
+                    <div class="mobile-menu-section">
+                        <div class="mobile-menu-section-title">СОЦИАЛЬНОЕ</div>
+                        <a href="challenges.html" class="mobile-menu-item">
+                            <img src="images/challenges.png" alt="Челленджи" class="mobile-menu-icon">
+                            <span>Челленджи</span>
+                        </a>
+                        <a href="achievements.html" class="mobile-menu-item">
+                            <img src="images/achievements.png" alt="Достижения" class="mobile-menu-icon">
+                            <span>Достижения</span>
+                        </a>
+                        <a href="leaderboard.html" class="mobile-menu-item">
+                            <img src="images/leaderboard.png" alt="Лидеры" class="mobile-menu-icon">
+                            <span>Лидеры</span>
+                        </a>
+                    </div>
+                    <div class="mobile-menu-section">
+                        <div class="mobile-menu-section-title">МАГАЗИН</div>
+                        <a href="shop.html" class="mobile-menu-item">
+                            <img src="images/shop.png" alt="Магазин" class="mobile-menu-icon">
+                            <span>Магазин</span>
+                        </a>
+                        <a href="premium.html" class="mobile-menu-item">
+                            <img src="images/premium.png" alt="Премиум" class="mobile-menu-icon">
+                            <span>Премиум</span>
+                        </a>
+                        <a href="transactions.html" class="mobile-menu-item">
+                            <img src="images/transactions.png" alt="Все операции" class="mobile-menu-icon">
+                            <span>Все операции</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="challenges-header">
+                <h1 class="page-title">🏆 Челленджи</h1>
+            </div>
+
+            <!-- СТАТИСТИКА -->
+            <div class="challenges-stats-row">
+                <div class="stat-chip" id="active-challenges-count">
+                    <i class="fas fa-play-circle"></i>
+                    <span>Активных: <strong>0</strong></span>
+                </div>
+                <div class="stat-chip" id="completed-challenges-count">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Завершено: <strong>0</strong></span>
+                </div>
+            </div>
+
+            <!-- ФИЛЬТРЫ -->
+            <div class="filters-row">
+                <div class="filter-group">
+                    <select class="filter-select" id="filter-type">
+                        <option value="">Тип</option>
+                        <option value="daily">Ежедневные</option>
+                        <option value="seasonal">Сезонные</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <select class="filter-select" id="filter-difficulty">
+                        <option value="">Сложность</option>
+                        <option value="beginner">Начальный</option>
+                        <option value="intermediate">Средний</option>
+                        <option value="expert">Экспертный</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <select class="filter-select" id="filter-reward">
+                        <option value="">Редкость награды</option>
+                        <option value="common">Обычная</option>
+                        <option value="rare">Редкая</option>
+                        <option value="super">Супер редкая</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <select class="filter-select" id="filter-duration">
+                        <option value="">Длительность</option>
+                        <option value="short">Короткие (до 7 дней)</option>
+                        <option value="medium">Средние (8-30 дней)</option>
+                        <option value="long">Длинные (30+ дней)</option>
+                    </select>
+                </div>
+
+                <button class="btn-reset-filters" id="reset-filters-btn">Сбросить</button>
+            </div>
+
+            <div class="recommended-section">
+                <div class="recommended-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-star" style="color: #f59e0b;"></i>
+                        Рекомендуемые для вас
+                    </h2>
+                    <button class="refresh-btn" id="refresh-recommended">
+                        <i class="fas fa-sync-alt"></i>
+                        <span>Обновить</span>
+                    </button>
+                </div>
+                <div class="challenges-grid" id="recommended-grid"></div>
+            </div>
+
+            <div class="all-challenges-header">
+                <h2 class="section-title">
+                    <i class="fas fa-list" style="color: #8b5cf6;"></i>
+                    Все челленджи
+                </h2>
+            </div>
+
+            <div class="all-challenges-section">
+                <div class="challenges-grid" id="all-challenges-grid"></div>
+
+                <div class="pagination" id="pagination">
+                    <button class="pagination-btn" id="prev-page" disabled>
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <div class="page-numbers" id="page-numbers"></div>
+                    <button class="pagination-btn" id="next-page">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальные окна -->
+    <!-- Модальные окна -->
+    <div class="modal-overlay" id="challenge-modal" style="display: none;">
+        <div class="modal challenge-modal">
+            <button class="modal-close" id="close-challenge-modal">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="challenge-card-detail">
+                <div class="challenge-detail-header">
+                    <h2 class="challenge-detail-title" id="modal-challenge-title"></h2>
+                    <div class="challenge-detail-type-badge" id="modal-challenge-type-badge">
+                        <span id="modal-challenge-type"></span>
+                    </div>
+                </div>
+                <div class="status-badge" id="modal-challenge-status-badge" style="display: inline-block; margin-bottom: 10px;">
+                    <span id="modal-challenge-status"></span>
+                </div>
+                <div class="challenge-detail-description" id="modal-challenge-description"></div>
+                <div class="challenge-info-row">
+                    <div class="challenge-detail-info">
+                        <div class="info-row">
+                            <div class="info-item">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span class="info-label">Длительность:</span>
+                                <span class="info-value" id="modal-challenge-duration"></span>
+                            </div>
+                            <div class="info-item">
+                                <i class="fas fa-star"></i>
+                                <span class="info-label">Очки:</span>
+                                <span class="info-value" id="modal-challenge-points"></span>
+                            </div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-item">
+                                <i class="fas fa-users"></i>
+                                <span class="info-label">Участников:</span>
+                                <span class="info-value" id="modal-challenge-participants"></span>
+                            </div>
+                            <div class="info-item">
+                                <i class="fas fa-chart-line"></i>
+                                <span class="info-label">Сложность:</span>
+                                <span class="info-value" id="modal-challenge-difficulty"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="challenge-detail-reward">
+                        <div class="reward-header">
+                            <i class="fas fa-gift"></i>
+                            <span>Награда</span>
+                        </div>
+                        <div class="reward-detail">
+                            <div class="reward-rarity-badge" id="modal-reward-rarity-badge">
+                                <span id="modal-reward-rarity"></span>
+                            </div>
+                            <div class="reward-id">
+                                <span class="id-value" id="modal-reward-id"></span>
+                            </div>
+                            <div class="reward-points">
+                                <i class="fas fa-star"></i>
+                                <span>+<span id="modal-reward-points"></span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="challenge-progress-section" id="modal-progress-section" style="display: none;">
+                    <div class="progress-label">
+                        <span>Прогресс</span>
+                        <span class="progress-days" id="modal-progress-days"></span>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar-fill" id="modal-progress-bar" style="width: 0%"></div>
+                    </div>
+                </div>
+                <div class="challenge-detail-actions" id="modal-actions"></div>
+                <div class="warning-message" id="early-completion-warning" style="display: none;">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span>Вы уверены? При досрочном завершении вы не получите награду.</span>
+                    <div class="warning-actions">
+                        <button class="btn-primary btn-small" id="confirm-early-complete">Да</button>
+                        <button class="btn-secondary btn-small" id="cancel-early-complete">Нет</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="invite-friend-modal" style="display: none;">
+        <div class="modal invite-modal">
+            <button class="modal-close" onclick="document.getElementById('invite-friend-modal').style.display='none'">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-content">
+                <h2>Кинуть вызов другу</h2>
+                <p>Пригласите друга участвовать в челлендже</p>
+                <div class="invite-challenge-info">
+                    <h3 id="invite-challenge-name"></h3>
+                    <div class="invite-challenge-details">
+                        <span><i class="fas fa-calendar"></i> <span id="invite-challenge-duration"></span> дней</span>
+                        <span><i class="fas fa-star"></i> <span id="invite-challenge-reward"></span> очков</span>
+                    </div>
+                </div>
+                <div class="invite-search">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="invite-search" placeholder="Поиск по имени или псевдониму...">
+                </div>
+                <div class="invite-users-list" id="invite-users-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/header.js"></script>
+    <script src="js/fitness-db.js"></script>
+    <script src="js/database.js"></script>
+    <script src="js/challenges.js"></script>
+</body>
+</html>

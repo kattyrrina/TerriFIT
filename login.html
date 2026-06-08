@@ -1,0 +1,340 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TerriFIT - Вход и регистрация</title>
+    <link rel="stylesheet" href="login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="images/favicon.png">
+</head>
+<body>
+    <div class="container">
+        <div class="login-wrapper">
+            <div class="auth-left">
+                <div class="auth-left-content">
+                    <h1 class="auth-title">TerriFIT</h1>
+                    <div class="motivation-quote">
+                        <p class="quote-text">
+                            Вы когда-нибудь мечтали стать<br>
+                            <span class="highlight">лучшей версией</span> себя:
+                        </p>
+                        <div class="quote-words">
+                            <span class="word word-1">спортивнее,</span>
+                            <span class="word word-2">моложе,</span>
+                            <span class="word word-3">идеальнее</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right-panel">
+                <div class="form-container" id="login-form">
+                    <div class="form-header">
+                        <h2>Вход в аккаунт</h2>
+                        <p>Введите данные для входа</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="login-username">Логин</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-user"></i>
+                            <input type="text" id="login-username" placeholder="Введите логин" value="">
+                        </div>
+                        <div class="error-message" id="login-username-error"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="login-password">Пароль</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="login-password" placeholder="Введите пароль" value="">
+                            <button type="button" class="toggle-password" id="toggle-login-password">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <div class="error-message" id="login-password-error"></div>
+                    </div>
+
+                    <div class="form-options">
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="remember-me">
+                            <span class="checkmark"></span>
+                            Запомнить меня
+                        </label>
+                        <a href="#" class="forgot-password" id="forgot-password">Забыли пароль?</a>
+                    </div>
+
+                    <button class="btn-primary" id="login-btn">Войти</button>
+
+                    <div class="divider">
+                        <span>или</span>
+                    </div>
+
+                    <button class="btn-secondary" id="sms-login-btn">
+                        <i class="fas fa-mobile-alt"></i>
+                        Войти по СМС
+                    </button>
+
+                    <div class="form-footer">
+                        <p>Нет аккаунта? <a href="#" id="show-register">Зарегистрироваться</a></p>
+                    </div>
+                </div>
+
+                <div class="form-container" id="sms-form" style="display: none;">
+                    <div class="form-header">
+                        <h2>Вход по СМС</h2>
+                        <p>Введите номер телефона</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Номер телефона</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-phone"></i>
+                            <input type="tel" id="phone" placeholder="+7 (___) ___-__-__" value="">
+                        </div>
+                        <div class="error-message" id="phone-error"></div>
+                    </div>
+
+                    <div class="form-group" id="sms-code-group" style="display: none;">
+                        <label for="sms-code">Код из СМС</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-sms"></i>
+                            <input type="text" id="sms-code" placeholder="Введите 4-значный код" maxlength="4">
+                        </div>
+                        <div class="error-message" id="sms-code-error"></div>
+                        <div class="sms-timer">
+                            <span id="sms-timer-text">Отправить код повторно через: <span id="timer">60</span> сек</span>
+                            <button type="button" class="resend-btn" id="resend-sms" style="display: none;">Отправить снова</button>
+                        </div>
+                    </div>
+
+                    <button class="btn-primary" id="send-sms-btn">Получить код</button>
+                    <button class="btn-secondary" id="verify-sms-btn" style="display: none;">Подтвердить</button>
+
+                    <div class="form-footer">
+                        <p><a href="#" id="back-to-login"><i class="fas fa-arrow-left"></i> Назад ко входу</a></p>
+                    </div>
+                </div>
+
+                <div class="form-container" id="recovery-form" style="display: none;">
+                    <div class="form-header">
+                        <h2>Восстановление пароля</h2>
+                        <p>Введите номер телефона для восстановления</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="recovery-phone">Номер телефона</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-phone"></i>
+                            <input type="tel" id="recovery-phone" placeholder="+7 (___) ___-__-__" value="">
+                        </div>
+                        <div class="error-message" id="recovery-phone-error"></div>
+                    </div>
+
+                    <button class="btn-primary" id="recovery-btn">Восстановить доступ</button>
+
+                    <div class="form-footer">
+                        <p><a href="#" id="back-to-login-2"><i class="fas fa-arrow-left"></i> Назад ко входу</a></p>
+                    </div>
+                </div>
+
+                <div class="form-container" id="register-form" style="display: none;">
+                    <div class="form-header">
+                        <h2>Регистрация</h2>
+                        <p>Шаг <span id="current-step">1</span> из <span id="total-steps">9</span></p>
+                        <div class="progress-bar">
+                            <div class="progress" id="registration-progress"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-step active" id="step-1">
+                        <div class="form-group">
+                            <label for="first-name">Имя</label>
+                            <input type="text" id="first-name" placeholder="Введите ваше имя">
+                            <div class="error-message" id="first-name-error"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="last-name">Фамилия</label>
+                            <input type="text" id="last-name" placeholder="Введите вашу фамилию">
+                            <div class="error-message" id="last-name-error"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-step" id="step-2">
+                        <div class="form-group">
+                            <label for="register-phone">Номер телефона</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-phone"></i>
+                                <input type="tel" id="register-phone" placeholder="+7 (___) ___-__-__" value="">
+                            </div>
+                            <div class="error-message" id="register-phone-error"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-step" id="step-3">
+                        <div class="form-group">
+                            <label for="username">Логин</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-user"></i>
+                                <input type="text" id="username" placeholder="Придумайте логин">
+                            </div>
+                            <div class="error-message" id="username-error"></div>
+                            <div class="password-requirements" style="margin-top: 10px;">
+                                <p>Логин должен содержать:</p>
+                                <ul>
+                                    <li id="req-username-length">Минимум 3 символа</li>
+                                    <li id="req-username-unique">Быть уникальным</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-step" id="step-4">
+                        <div class="form-group">
+                            <label for="register-password">Пароль</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-lock"></i>
+                                <input type="password" id="register-password" placeholder="Придумайте пароль">
+                                <button type="button" class="toggle-password" id="toggle-register-password">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                            <div class="error-message" id="register-password-error"></div>
+                            <div class="password-strength">
+                                <div class="strength-bar">
+                                    <div class="strength-fill" id="password-strength"></div>
+                                </div>
+                                <span class="strength-text" id="strength-text">Слабый</span>
+                            </div>
+                            <div class="password-requirements">
+                                <p>Пароль должен содержать:</p>
+                                <ul>
+                                    <li id="req-length">Минимум 8 символов</li>
+                                    <li id="req-uppercase">Заглавные буквы</li>
+                                    <li id="req-numbers">Цифры</li>
+                                    <li id="req-special">Специальные символы</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="confirm-password">Подтверждение пароля</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-lock"></i>
+                                <input type="password" id="confirm-password" placeholder="Повторите пароль">
+                            </div>
+                            <div class="error-message" id="confirm-password-error"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-step" id="step-5">
+                        <div class="form-group">
+                            <label for="birthDate">Дата рождения</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-calendar-alt"></i>
+                                <input type="date" id="birthDate" name="birthDate" class="form-control" required>
+                            </div>
+                            <div class="error-message" id="birthDate-error"></div>
+                            <p style="font-size: 12px; color: #94a3b8; margin-top: 5px;">
+                                <i class="fas fa-info-circle"></i> Минимальный возраст: 14 лет
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="form-step" id="step-6">
+                        <div class="form-group">
+                            <label>Пол</label>
+                            <div class="gender-selection">
+                                <label class="gender-option">
+                                    <input type="radio" name="gender" value="male">
+                                    <div class="gender-card">
+                                        <i class="fas fa-mars"></i>
+                                        <span>Мужской</span>
+                                    </div>
+                                </label>
+                                <label class="gender-option">
+                                    <input type="radio" name="gender" value="female">
+                                    <div class="gender-card">
+                                        <i class="fas fa-venus"></i>
+                                        <span>Женский</span>
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="error-message" id="gender-error"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-step" id="step-7">
+                        <div class="form-group">
+                            <label for="weight">Вес (кг)</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-weight-scale"></i>
+                                <input type="number" id="weight" min="30" max="200" step="0.1" placeholder="Введите ваш вес">
+                            </div>
+                            <div class="error-message" id="weight-error"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-step" id="step-8">
+                        <div class="form-group">
+                            <label for="fitness-level">Уровень физической подготовки</label>
+                            <select id="fitness-level">
+                                <option value="">Выберите уровень</option>
+                                <option value="beginner">Начинающий</option>
+                                <option value="intermediate">Средний</option>
+                                <option value="advanced">Продвинутый</option>
+                                <option value="athlete">Спортсмен</option>
+                            </select>
+                            <div class="error-message" id="fitness-level-error"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-step" id="step-9">
+                        <div class="form-group">
+                            <label for="goal">Основная цель</label>
+                            <select id="goal">
+                                <option value="">Выберите цель</option>
+                                <option value="weight-loss">Похудение</option>
+                                <option value="muscle-gain">Набор мышечной массы</option>
+                                <option value="endurance">Развитие выносливости</option>
+                                <option value="health">Улучшение здоровья</option>
+                                <option value="competition">Подготовка к соревнованиям</option>
+                            </select>
+                            <div class="error-message" id="goal-error"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="medical-issues">Медицинские ограничения (необязательно)</label>
+                            <textarea id="medical-issues" placeholder="Опишите ваши медицинские ограничения, если есть"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="step-navigation">
+                        <button type="button" class="btn-secondary" id="prev-step">Назад</button>
+                        <button type="button" class="btn-primary" id="next-step">Далее</button>
+                        <button type="button" class="btn-primary" id="complete-registration" style="display: none;">Завершить регистрацию</button>
+                    </div>
+
+                    <div class="form-footer">
+                        <p>Уже есть аккаунт? <a href="#" id="show-login">Войти</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="success-modal">
+        <div class="modal">
+            <div class="modal-icon success">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h3>Регистрация успешна!</h3>
+            <p>Ваш аккаунт был успешно создан. Теперь вы можете войти в систему.</p>
+            <button class="btn-primary" id="go-to-login">Войти в аккаунт</button>
+        </div>
+    </div>
+
+    <script src="js/fitness-db.js"></script>
+    <script src="js/database.js"></script>
+    <script src="login.js"></script>
+</body>
+</html>

@@ -1,0 +1,965 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>TerriFIT - Таблица лидеров</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="images/favicon.png">
+    <style>
+        .leaderboard-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(16,10,66, 0.2);
+            border-radius: 24px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .leaderboard-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .leaderboard-title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+            .leaderboard-title h1 {
+                font-size: 32px;
+                background: linear-gradient(90deg, #f59e0b, #8b5cf6);
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+            }
+
+            .leaderboard-title i {
+                font-size: 40px;
+                color: #f59e0b;
+            }
+
+        .leaderboard-stats {
+            display: flex;
+            gap: 20px;
+        }
+
+        .stat-card {
+            background: rgba(19,14,72,0.5);
+            border-radius: 12px;
+            padding: 15px 25px;
+            text-align: center;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #3b82f6;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-top: 5px;
+        }
+
+        .leaderboard-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0 30px;
+            background: rgba(19,14,72,0.3);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+            .leaderboard-table th {
+                text-align: left;
+                padding: 15px;
+                color: #94a3b8;
+                font-size: 14px;
+                font-weight: 600;
+                border-bottom: 2px solid rgba(59, 130, 246, 0.3);
+                background: rgba(19,14,72,0.5);
+            }
+
+            .leaderboard-table td {
+                padding: 15px;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            }
+
+            .leaderboard-table tr:last-child td {
+                border-bottom: none;
+            }
+
+        .leaderboard-row {
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+            .leaderboard-row:hover {
+                background: rgba(59, 130, 246, 0.1);
+            }
+
+            .leaderboard-row.current-user {
+                background: rgba(139, 92, 246, 0.2);
+                border-left: 4px solid #8b5cf6;
+            }
+
+        .rank-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .rank-1 {
+            background: linear-gradient(135deg, #f59e0b, #fbbf24);
+            color: #1e1e3f;
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.5);
+        }
+
+        .rank-2 {
+            background: linear-gradient(135deg, #94a3b8, #cbd5e1);
+            color: #1e1e3f;
+        }
+
+        .rank-3 {
+            background: linear-gradient(135deg, #b45309, #d97706);
+            color: #1e1e3f;
+        }
+
+        .rank-other {
+            background: rgba(148, 163, 184, 0.2);
+            color: #94a3b8;
+            border: 1px solid rgba(148, 163, 184, 0.3);
+        }
+
+        .user-cell {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar-small {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #3b82f6;
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .user-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #f8fafc;
+        }
+
+        .user-level {
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        .points-cell {
+            font-weight: 700;
+            color: #f59e0b;
+        }
+
+        .rating-cell {
+            font-weight: 700;
+            color: #8b5cf6;
+        }
+
+        .like-btn {
+            background: none;
+            border: none;
+            color: #94a3b8;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+            .like-btn:hover {
+                color: #ef4444;
+                transform: scale(1.1);
+            }
+
+            .like-btn.liked {
+                color: #ef4444;
+            }
+
+        .like-count {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .private-badge {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .leaderboard-footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .update-time {
+            color: #94a3b8;
+            font-size: 12px;
+        }
+
+        .refresh-btn {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            color: #3b82f6;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+            .refresh-btn:hover {
+                background: #3b82f6;
+                color: white;
+            }
+
+        .your-rank-section {
+            margin-top: 30px;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(59, 130, 246, 0.2));
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid #8b5cf6;
+        }
+
+        .your-rank-title {
+            font-size: 14px;
+            color: #94a3b8;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .your-rank-content {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .your-rank-number {
+            font-size: 48px;
+            font-weight: 700;
+            color: #8b5cf6;
+            min-width: 80px;
+            text-align: center;
+        }
+
+        .your-rank-details {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex: 1;
+        }
+
+        .your-rank-stats {
+            display: flex;
+            gap: 20px;
+            margin-left: auto;
+        }
+
+        .your-rank-stat {
+            text-align: center;
+        }
+
+        .your-rank-stat-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: #f59e0b;
+        }
+
+        .your-rank-stat-label {
+            font-size: 11px;
+            color: #94a3b8;
+        }
+
+        .privacy-link {
+            color: #3b82f6;
+            text-decoration: none;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 8px 16px;
+            background: rgba(59, 130, 246, 0.1);
+            border-radius: 20px;
+            transition: all 0.3s;
+        }
+
+            .privacy-link:hover {
+                background: #3b82f6;
+                color: white;
+                text-decoration: none;
+            }
+
+        .rating-info {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 768px) {
+        }
+
+        @media (max-width: 480px) {
+            .leaderboard-table th:nth-child(3),
+            .leaderboard-table td:nth-child(3),
+            .leaderboard-table th:nth-child(4),
+            .leaderboard-table td:nth-child(4) {
+                display: none;
+            }
+
+            .leaderboard-container {
+                padding: 20px;
+            }
+
+            .leaderboard-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .leaderboard-stats {
+                width: 100%;
+            }
+
+            .stat-card {
+                flex: 1;
+                padding: 10px;
+            }
+
+            .leaderboard-table th,
+            .leaderboard-table td {
+                padding: 10px;
+                font-size: 13px;
+            }
+
+            .your-rank-stats {
+                margin-left: 0;
+            }
+
+            .your-rank-number {
+                font-size: 36px;
+                font-weight: 700;
+            }
+
+            /* Чтобы место и имя были в одной строке */
+            .your-rank-content {
+                display: flex !important;
+                flex-direction: row !important;
+                align-items: center !important;
+                gap: 15px !important;
+                flex-wrap: wrap !important;
+            }
+
+            .your-rank-details {
+                flex: 1 !important;
+                display: flex !important;
+                align-items: center !important;
+                gap: 10px !important;
+            }
+
+            .user-cell {
+                gap: 8px !important;
+            }
+
+            .user-avatar-small {
+                width: 35px !important;
+                height: 35px !important;
+            }
+
+            .user-name {
+                font-size: 15px !important;
+            }
+
+            .user-level {
+                font-size: 11px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <div class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-title">ОСНОВНОЕ</div>
+                <a href="index.html" class="sidebar-item">
+                    <img src="images/profile.png" alt="Профиль" class="sidebar-icon">
+                    <span>Профиль</span>
+                </a>
+                <a href="notifications.html" class="sidebar-item" style="position: relative;">
+                    <img src="images/notifications.png" alt="Уведомления" class="sidebar-icon">
+                    <span>Уведомления</span>
+                    <span class="notification-badge" id="sidebar-notification-badge" style="display: none;"></span>
+                </a>
+                <a href="privacy.html" class="sidebar-item" onclick="sessionStorage.setItem('privacyFromPage', 'leaderboard')">
+                    <img src="images/privacy.png" alt="Конфиденциальность" class="sidebar-icon">
+                    <span>Конфиденциальность</span>
+                </a>
+                <div class="sidebar-item" id="logout-btn">
+                    <img src="images/logout.png" alt="Выйти" class="sidebar-icon">
+                    <span>Выйти</span>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">СОЦИАЛЬНОЕ</div>
+                <a href="challenges.html" class="sidebar-item">
+                    <img src="images/challenges.png" alt="Челленджи" class="sidebar-icon">
+                    <span>Челленджи</span>
+                </a>
+                <a href="achievements.html" class="sidebar-item">
+                    <img src="images/achievements.png" alt="Достижения" class="sidebar-icon">
+                    <span>Достижения</span>
+                </a>
+                <a href="leaderboard.html" class="sidebar-item">
+                    <img src="images/leaderboard.png" alt="Лидеры" class="sidebar-icon">
+                    <span>Лидеры</span>
+                </a>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">МАГАЗИН</div>
+                <a href="shop.html" class="sidebar-item">
+                    <img src="images/shop.png" alt="Магазин" class="sidebar-icon">
+                    <span>Магазин</span>
+                </a>
+                <a href="premium.html" class="sidebar-item">
+                    <img src="images/premium.png" alt="Премиум" class="sidebar-icon">
+                    <span>Премиум</span>
+                </a>
+                <a href="transactions.html" class="sidebar-item">
+                    <img src="images/transactions.png" alt="Все операции" class="sidebar-icon">
+                    <span>Все операции</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="header">
+                <div class="header-top">
+                    <a href="index.html" class="logo">
+                        <img src="images/logo.png" alt="logo">
+                    </a>
+                    <div class="burger-menu" id="burger-menu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+                <div class="user-menu">
+                    <div class="points-header">
+                        <i class="fas fa-star" style="color: #f59e0b;"></i>
+                        <span id="header-points" class="user-points">0</span>
+                    </div>
+                    <a href="index.html" class="user-avatar-link" id="header-avatar-link">
+                        <div class="user-avatar-header" id="header-avatar">
+                            <img src="images/man.png" alt="avatar" class="avatar-img">
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- ВЫЕЗЖАЮЩЕЕ МЕНЮ СВЕРХУ ВНИЗ НА ВЕСЬ ЭКРАН -->
+            <div class="mobile-menu-full" id="mobile-menu-full">
+                <div class="mobile-menu-header">
+                    <div class="mobile-menu-logo">
+                        <img src="images/logo.png" alt="logo">
+                    </div>
+                    <div class="mobile-menu-close" id="mobile-menu-close">
+                        <i class="fas fa-times"></i>
+                    </div>
+                </div>
+                <div class="mobile-menu-items">
+                    <div class="mobile-menu-section">
+                        <div class="mobile-menu-section-title">ОСНОВНОЕ</div>
+                        <a href="index.html" class="mobile-menu-item">
+                            <img src="images/profile.png" alt="Профиль" class="mobile-menu-icon">
+                            <span>Профиль</span>
+                        </a>
+                        <a href="notifications.html" class="mobile-menu-item" style="position: relative;">
+                            <img src="images/notifications.png" alt="Уведомления" class="mobile-menu-icon">
+                            <span>Уведомления</span>
+                            <span class="mobile-notification-badge" id="mobile-notification-badge" style="display: none;"></span>
+                        </a>
+                        <a href="privacy.html" class="mobile-menu-item" onclick="sessionStorage.setItem('privacyFromPage', 'leaderboard')">
+                            <img src="images/privacy.png" alt="Конфиденциальность" class="mobile-menu-icon">
+                            <span>Конфиденциальность</span>
+                        </a>
+                        <div class="mobile-menu-item" id="mobile-logout-btn">
+                            <img src="images/logout.png" alt="Выйти" class="mobile-menu-icon">
+                            <span>Выйти</span>
+                        </div>
+                    </div>
+                    <div class="mobile-menu-section">
+                        <div class="mobile-menu-section-title">СОЦИАЛЬНОЕ</div>
+                        <a href="challenges.html" class="mobile-menu-item">
+                            <img src="images/challenges.png" alt="Челленджи" class="mobile-menu-icon">
+                            <span>Челленджи</span>
+                        </a>
+                        <a href="achievements.html" class="mobile-menu-item">
+                            <img src="images/achievements.png" alt="Достижения" class="mobile-menu-icon">
+                            <span>Достижения</span>
+                        </a>
+                        <a href="leaderboard.html" class="mobile-menu-item">
+                            <img src="images/leaderboard.png" alt="Лидеры" class="mobile-menu-icon">
+                            <span>Лидеры</span>
+                        </a>
+                    </div>
+                    <div class="mobile-menu-section">
+                        <div class="mobile-menu-section-title">МАГАЗИН</div>
+                        <a href="shop.html" class="mobile-menu-item">
+                            <img src="images/shop.png" alt="Магазин" class="mobile-menu-icon">
+                            <span>Магазин</span>
+                        </a>
+                        <a href="premium.html" class="mobile-menu-item">
+                            <img src="images/premium.png" alt="Премиум" class="mobile-menu-icon">
+                            <span>Премиум</span>
+                        </a>
+                        <a href="transactions.html" class="mobile-menu-item">
+                            <img src="images/transactions.png" alt="Все операции" class="mobile-menu-icon">
+                            <span>Все операции</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="leaderboard-container">
+                <div class="leaderboard-header">
+                    <div class="leaderboard-title">
+                        <i class="fas fa-crown"></i>
+                        <h1>Таблица лидеров</h1>
+                    </div>
+                    <div class="leaderboard-stats">
+                        <div class="stat-card">
+                            <div class="stat-value" id="total-users">0</div>
+                            <div class="stat-label">всего участников</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="active-users">0</div>
+                            <div class="stat-label">активных</div>
+                        </div>
+                    </div>
+                </div>
+
+                <table class="leaderboard-table">
+                    <thead>
+                        <tr>
+                            <th>Место</th>
+                            <th>Пользователь</th>
+                            <th>Очки</th>
+                            <th>Рейтинг</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaderboard-body">
+                    </tbody>
+                </table>
+
+                <div class="your-rank-section" id="your-rank-section">
+                </div>
+
+                <div class="leaderboard-footer">
+                    <div class="update-time" id="update-time">
+                        <i class="fas fa-clock"></i> Обновлено: только что
+                    </div>
+                    <div class="rating-info">
+                        <i class="fas fa-info-circle"></i> Рейтинг = Уровень×100 + Очки + Челленджи×50
+                    </div>
+                    <button class="refresh-btn" id="refresh-leaderboard">
+                        <i class="fas fa-sync-alt"></i> Обновить
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/header.js"></script>
+    <script src="js/fitness-db.js"></script>
+    <script src="js/database.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log('🚀 Загрузка страницы лидеров');
+
+            const currentUser = window.fitnessDB.getCurrentUser();
+            if (!currentUser) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const allLikesStorage = JSON.parse(localStorage.getItem('allUserLikes') || '{}');
+
+            loadLeaderboard();
+
+            document.getElementById('refresh-leaderboard').addEventListener('click', loadLeaderboard);
+
+            document.getElementById('logout-btn').addEventListener('click', (e) => {
+                e.preventDefault();
+                window.fitnessDB.logout();
+                window.location.href = 'login.html';
+            });
+            // Проверка глобального поиска для пользователей
+            function checkGlobalSearch() {
+                const searchResult = sessionStorage.getItem('globalSearchResult');
+                if (searchResult) {
+                    sessionStorage.removeItem('globalSearchResult');
+                    try {
+                        const data = JSON.parse(searchResult);
+                        if (data.type === 'user' && data.results && data.results.length > 0) {
+                            // Подсветка найденного пользователя или показ списка
+                            console.log('Найден пользователь:', data.results[0]);
+                            // Можно подсветить строку с пользователем
+                        }
+                    } catch (e) {
+                        console.error('Ошибка:', e);
+                    }
+                }
+            }
+
+            setTimeout(() => {
+                checkGlobalSearch();
+            }, 200);
+            function calculateUserRating(user) {
+                const level = user.level || 1;
+                const points = window.AppDatabase.calculateTotalPoints(user.achievements || []);
+                const completedChallenges = user.completedChallenges?.length || 0;
+                return (level * 100) + points + (completedChallenges * 50);
+            }
+
+            function loadLeaderboard() {
+                console.log('📊 Загрузка таблицы лидеров');
+
+                let users = window.fitnessDB.getAllUsers();
+                console.log('👥 Всего пользователей в БД:', users.length);
+
+                if (users.length < 5) {
+                    console.log('📝 Создаем тестовых пользователей...');
+                    createTestUsers();
+                    users = window.fitnessDB.getAllUsers();
+                }
+
+                const publicUsers = users.filter(u => !u.privacy?.privateProfile);
+                console.log('👥 Публичных пользователей:', publicUsers.length);
+
+                if (publicUsers.length === 0) {
+                    document.getElementById('leaderboard-body').innerHTML = `
+                            <tr>
+                                <td colspan="5" style="text-align: center; padding: 50px; color: #94a3b8;">
+                                    Нет пользователей для отображения
+                                </td>
+                            </tr>
+                        `;
+                    return;
+                }
+
+                const usersWithRating = publicUsers.map(user => ({
+                    ...user,
+                    rating: calculateUserRating(user)
+                }));
+
+                const sortedUsers = [...usersWithRating].sort((a, b) => b.rating - a.rating);
+
+                const top5 = sortedUsers.slice(0, 5);
+
+                document.getElementById('total-users').textContent = users.length;
+                document.getElementById('active-users').textContent = users.filter(u => u.stats?.trainings > 0).length;
+
+                const tbody = document.getElementById('leaderboard-body');
+                tbody.innerHTML = '';
+
+                top5.forEach((user, index) => {
+                    tbody.appendChild(createLeaderboardRow(user, index + 1, currentUser.id));
+                });
+
+                showUserRank(sortedUsers, currentUser.id);
+            }
+
+            function createTestUsers() {
+                const users = window.fitnessDB.getAllUsers();
+
+                const testUsers = [
+                    {
+                        id: 1001,
+                        username: 'ironman',
+                        password: 'test123',
+                        firstName: 'Алексей',
+                        lastName: 'Железный',
+                        gender: 'male',
+                        level: 85,
+                        stats: { trainings: 450, calories: 45000, steps: 4500000, progress: 95 },
+                        achievements: Array(15).fill().map((_, i) => ({ id: i + 1 })),
+                        completedChallenges: Array(8).fill().map((_, i) => ({ id: i + 1 })),
+                        privacy: { privateProfile: false, hideRealName: false }
+                    },
+                    {
+                        id: 1002,
+                        username: 'fitness_girl',
+                        password: 'test123',
+                        firstName: 'Елена',
+                        lastName: 'Фитнес',
+                        gender: 'female',
+                        level: 72,
+                        stats: { trainings: 380, calories: 38000, steps: 3800000, progress: 88 },
+                        achievements: Array(12).fill().map((_, i) => ({ id: i + 1 })),
+                        completedChallenges: Array(6).fill().map((_, i) => ({ id: i + 1 })),
+                        privacy: { privateProfile: false, hideRealName: false }
+                    },
+                    {
+                        id: 1003,
+                        username: 'power_lifter',
+                        password: 'test123',
+                        firstName: 'Дмитрий',
+                        lastName: 'Силач',
+                        gender: 'male',
+                        level: 94,
+                        stats: { trainings: 520, calories: 52000, steps: 5200000, progress: 98 },
+                        achievements: Array(18).fill().map((_, i) => ({ id: i + 1 })),
+                        completedChallenges: Array(10).fill().map((_, i) => ({ id: i + 1 })),
+                        privacy: { privateProfile: false, hideRealName: false }
+                    },
+                    {
+                        id: 1004,
+                        username: 'yoga_master',
+                        password: 'test123',
+                        firstName: 'Мария',
+                        lastName: 'Йога',
+                        gender: 'female',
+                        level: 68,
+                        stats: { trainings: 320, calories: 32000, steps: 3200000, progress: 85 },
+                        achievements: Array(10).fill().map((_, i) => ({ id: i + 1 })),
+                        completedChallenges: Array(5).fill().map((_, i) => ({ id: i + 1 })),
+                        privacy: { privateProfile: false, hideRealName: false }
+                    },
+                    {
+                        id: 1005,
+                        username: 'runner_pro',
+                        password: 'test123',
+                        firstName: 'Сергей',
+                        lastName: 'Бегун',
+                        gender: 'male',
+                        level: 77,
+                        stats: { trainings: 410, calories: 41000, steps: 4100000, progress: 92 },
+                        achievements: Array(14).fill().map((_, i) => ({ id: i + 1 })),
+                        completedChallenges: Array(7).fill().map((_, i) => ({ id: i + 1 })),
+                        privacy: { privateProfile: false, hideRealName: false }
+                    }
+                ];
+
+                testUsers.forEach(testUser => {
+                    if (!users.some(u => u.id === testUser.id)) {
+                        users.push(testUser);
+                    }
+                });
+
+                window.fitnessDB.saveUsers(users);
+                console.log('✅ Тестовые пользователи созданы');
+            }
+
+            function createLeaderboardRow(user, rank, currentUserId) {
+                const tr = document.createElement('tr');
+                tr.className = `leaderboard-row ${user.id === currentUserId ? 'current-user' : ''}`;
+
+                const rankCell = document.createElement('td');
+                const rankBadge = document.createElement('span');
+                rankBadge.className = `rank-badge rank-${rank <= 3 ? rank : 'other'}`;
+                rankBadge.textContent = rank;
+                rankCell.appendChild(rankBadge);
+
+                const userCell = document.createElement('td');
+                userCell.appendChild(createUserDisplay(user));
+
+                const pointsCell = document.createElement('td');
+                pointsCell.className = 'points-cell';
+                pointsCell.textContent = window.AppDatabase.calculateTotalPoints(user.achievements || []);
+
+                const ratingCell = document.createElement('td');
+                ratingCell.className = 'rating-cell';
+                ratingCell.textContent = user.rating;
+
+                const likeCell = document.createElement('td');
+                const likeBtn = document.createElement('button');
+                likeBtn.className = 'like-btn';
+
+                const likeKey = `user_${user.id}`;
+                const userLikes = allLikesStorage[currentUserId] || {};
+                const isLiked = userLikes[likeKey] || false;
+                const likeCount = allLikesStorage[`${likeKey}_count`] || Math.floor(Math.random() * 50) + 10;
+
+                likeBtn.innerHTML = `<i class="fas fa-heart"></i> <span class="like-count">${likeCount}</span>`;
+                if (isLiked) likeBtn.classList.add('liked');
+
+                likeBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+
+                    const allLikes = JSON.parse(localStorage.getItem('allUserLikes') || '{}');
+                    const currentUserLikes = allLikes[currentUserId] || {};
+
+                    const newLiked = !currentUserLikes[likeKey];
+                    currentUserLikes[likeKey] = newLiked;
+                    allLikes[currentUserId] = currentUserLikes;
+
+                    let count = allLikes[`${likeKey}_count`] || likeCount;
+                    if (newLiked) {
+                        count++;
+                    } else {
+                        count--;
+                    }
+                    allLikes[`${likeKey}_count`] = count;
+
+                    localStorage.setItem('allUserLikes', JSON.stringify(allLikes));
+                    allLikesStorage[currentUserId] = currentUserLikes;
+
+                    likeBtn.innerHTML = `<i class="fas fa-heart"></i> <span class="like-count">${count}</span>`;
+                    if (newLiked) {
+                        likeBtn.classList.add('liked');
+                    } else {
+                        likeBtn.classList.remove('liked');
+                    }
+                });
+
+                likeCell.appendChild(likeBtn);
+
+                tr.appendChild(rankCell);
+                tr.appendChild(userCell);
+                tr.appendChild(pointsCell);
+                tr.appendChild(ratingCell);
+                tr.appendChild(likeCell);
+
+                return tr;
+            }
+
+            function createUserDisplay(user) {
+                const container = document.createElement('div');
+                container.className = 'user-cell';
+
+                const avatarImg = document.createElement('img');
+                avatarImg.className = 'user-avatar-small';
+
+                if (user.avatar) {
+                    avatarImg.src = user.avatar.startsWith('data:') ? user.avatar : `images/${user.avatar}`;
+                } else {
+                    avatarImg.src = user.gender === 'male' ? 'images/man.png' : 'images/woman.png';
+                }
+                avatarImg.alt = user.firstName;
+
+                container.appendChild(avatarImg);
+
+                const info = document.createElement('div');
+                info.className = 'user-info';
+
+                const name = document.createElement('span');
+                name.className = 'user-name';
+
+                // Проверяем настройки конфиденциальности
+                if (user.privacy?.hideRealName) {
+                    // Если есть displayName - показываем его, иначе логин
+                    if (user.privacy.displayName && user.privacy.displayName.trim() !== '') {
+                        name.textContent = user.privacy.displayName;
+                    } else {
+                        name.textContent = user.username;
+                    }
+                } else {
+                    name.textContent = `${user.firstName} ${user.lastName}`;
+                }
+
+                const level = document.createElement('span');
+                level.className = 'user-level';
+                level.textContent = `Уровень ${user.level || 1}`;
+
+                info.appendChild(name);
+                info.appendChild(level);
+                container.appendChild(info);
+
+                return container;
+            }
+
+            function showUserRank(sortedUsers, currentUserId) {
+                const userRank = sortedUsers.findIndex(u => u.id === currentUserId) + 1;
+                const yourRankSection = document.getElementById('your-rank-section');
+
+                if (userRank > 0 && userRank > 5) {
+                    yourRankSection.style.display = 'block';
+                    const currentUser = sortedUsers.find(u => u.id === currentUserId);
+
+                    // Получаем отображаемое имя для текущего пользователя
+                    let displayName;
+                    if (currentUser.privacy?.hideRealName) {
+                        if (currentUser.privacy.displayName && currentUser.privacy.displayName.trim() !== '') {
+                            displayName = currentUser.privacy.displayName;
+                        } else {
+                            displayName = currentUser.username;
+                        }
+                    } else {
+                        displayName = `${currentUser.firstName} ${currentUser.lastName}`;
+                    }
+
+                    yourRankSection.innerHTML = `
+            <div class="your-rank-title">
+                <i class="fas fa-star"></i> Ваше место в таблице
+            </div>
+            <div class="your-rank-content">
+                <div class="your-rank-number">#${userRank}</div>
+                <div class="your-rank-details">
+                    <div class="user-cell">
+                        <img src="${getAvatarUrl(currentUser.avatar, currentUser.gender)}" class="user-avatar-small" alt="avatar">
+                        <div class="user-info">
+                            <span class="user-name">${displayName}</span>
+                            <span class="user-level">Уровень ${currentUser.level || 1}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+                } else {
+                    yourRankSection.style.display = 'none';
+                }
+            }
+            function getAvatarUrl(avatar, gender) {
+                if (avatar && avatar.startsWith('data:image')) return avatar;
+                if (avatar) return `images/${avatar}`;
+                return gender === 'male' ? 'images/man.png' : 'images/woman.png';
+            }
+        });
+    </script>
+</body>
+</html>        

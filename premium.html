@@ -1,0 +1,671 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>TerriFIT - Премиум контент</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="images/favicon.png">
+    <style>
+        /* Стили для премиум контента (как в магазине) */
+        .premium-header {
+            background: rgba(16,10,66,0.3);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid rgba(255,255,255,0.1);
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+            .premium-header h1 {
+                background: linear-gradient(90deg, #f59e0b, #8b5cf6) !important;
+                -webkit-background-clip: text !important;
+                background-clip: text !important;
+                color: transparent !important;
+            }
+
+            .premium-header .page-title {
+                font-size: 28px;
+                font-weight: 700;
+                background: linear-gradient(90deg, #f59e0b, #8b5cf6);
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                margin: 0;
+            }
+
+                .premium-header .page-title i {
+                    background: linear-gradient(90deg, #f59e0b, #8b5cf6);
+                    -webkit-background-clip: text;
+                    background-clip: text;
+                    color: transparent;
+                    font-size: 28px;
+                }
+
+        .points-display {
+            background: linear-gradient(135deg, #f59e0b, #8b5cf6);
+            padding: 12px 25px;
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 20px;
+            font-weight: 700;
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+            .points-display i {
+                font-size: 20px;
+                color: white;
+            }
+
+            .points-display .user-points {
+                color: white;
+                font-size: 22px;
+            }
+
+        /* Мобильная адаптация */
+        @media (max-width: 768px) {
+            .premium-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+                .premium-header .page-title {
+                    font-size: 24px;
+                    justify-content: center;
+                }
+
+                    .premium-header .page-title i {
+                        font-size: 24px;
+                    }
+
+            .points-display {
+                padding: 10px 20px;
+                font-size: 18px;
+            }
+
+                .points-display .user-points {
+                    font-size: 20px;
+                }
+        }
+
+        @media (max-width: 480px) {
+            .premium-header .page-title {
+                font-size: 20px;
+            }
+
+                .premium-header .page-title i {
+                    font-size: 20px;
+                }
+
+            .points-display {
+                padding: 8px 16px;
+                font-size: 16px;
+            }
+
+                .points-display .user-points {
+                    font-size: 18px;
+                }
+
+                .points-display i {
+                    font-size: 16px;
+                }
+        }
+        .premium-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .premium-card {
+            background: rgba(19,14,72,0.5);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(59,130,246,0.2);
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            height: 380px;
+        }
+
+            .premium-card:hover {
+                transform: translateY(-5px);
+                border-color: #3b82f6;
+                box-shadow: 0 10px 30px rgba(59,130,246,0.2);
+            }
+
+            .premium-card.opened {
+                border-color: #64748b;
+                background: rgba(30,30,50,0.5);
+            }
+
+        .premium-card-image {
+            height: 140px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .premium-card.opened .premium-card-image {
+            background: linear-gradient(135deg, #475569, #64748b);
+        }
+
+        .premium-card-image i {
+            font-size: 60px;
+            color: white;
+        }
+
+        .premium-card-content {
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+            .premium-card-content h3 {
+                font-size: 18px;
+                font-weight: 600;
+                color: #f8fafc;
+                margin-bottom: 10px;
+            }
+
+            .premium-card-content p {
+                font-size: 14px;
+                color: #94a3b8;
+                margin-bottom: 15px;
+                line-height: 1.5;
+                flex: 1;
+            }
+
+        .premium-card-price {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #f59e0b;
+            font-weight: 700;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        .unlock-btn {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+        }
+
+            .unlock-btn:hover:not(:disabled) {
+                transform: scale(1.02);
+                box-shadow: 0 5px 15px rgba(59,130,246,0.3);
+            }
+
+            .unlock-btn.disabled, .unlock-btn:disabled {
+                background: #475569;
+                cursor: not-allowed;
+                opacity: 0.5;
+            }
+
+        .opened-label {
+            background: #334155;
+            color: #cbd5e1;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 16px;
+            font-weight: 600;
+            border: 1px solid #475569;
+        }
+
+            .opened-label i {
+                margin-right: 5px;
+                color: #94a3b8;
+            }
+
+        .opened-section {
+            background: rgba(16,10,66,0.2);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(100,116,139,0.3);
+        }
+
+            .opened-section h2 {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                color: #cbd5e1;
+                margin-bottom: 20px;
+                font-size: 22px;
+            }
+
+        .opened-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .opened-card {
+            background: rgba(30,30,50,0.5);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #475569;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .opened-card-image {
+            height: 100px;
+            background: #334155;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+            .opened-card-image i {
+                font-size: 40px;
+                color: #94a3b8;
+            }
+
+        .opened-card-content {
+            padding: 15px;
+        }
+
+            .opened-card-content h4 {
+                font-size: 16px;
+                color: #f8fafc;
+                margin-bottom: 5px;
+            }
+
+            .opened-card-content p {
+                font-size: 12px;
+                color: #94a3b8;
+                margin-bottom: 10px;
+            }
+
+        .opened-card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .opened-price {
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+            .opened-price i {
+                color: #f59e0b;
+            }
+
+        .open-btn {
+            background: #334155;
+            color: #cbd5e1;
+            border: 1px solid #475569;
+            border-radius: 6px;
+            padding: 6px 12px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+            .open-btn:hover {
+                background: #475569;
+                color: white;
+            }
+
+        .empty-content {
+            text-align: center;
+            padding: 40px;
+            color: #94a3b8;
+            font-size: 16px;
+            background: rgba(19,14,72,0.3);
+            border-radius: 12px;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        .modal {
+            position: relative;
+            max-width: 700px;
+            width: 90%;
+            background: linear-gradient(145deg, #1a1a3a, #0e0939);
+            border: 2px solid rgba(139,92,246,0.3);
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            animation: modalAppear 0.3s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+            z-index: 10000;
+        }
+
+        .modal-content {
+            text-align: center;
+        }
+
+            .modal-content h2 {
+                color: #f8fafc;
+                margin-bottom: 15px;
+            }
+
+            .modal-content p {
+                color: #94a3b8;
+                margin-bottom: 20px;
+            }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            padding: 12px 20px;
+            width: 100%;
+            margin-top: 25px;
+        }
+
+            .btn-primary:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(59,130,246,0.3);
+            }
+
+        #content-frame {
+            min-height: 250px;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            z-index: 10;
+            background: transparent;
+        }
+
+            #content-frame video {
+                position: relative;
+                z-index: 11;
+                width: 100%;
+                max-width: 600px;
+                height: auto;
+                max-height: 340px;
+                border-radius: 12px;
+                background: #000;
+                display: block;
+                margin: 0 auto;
+            }
+
+        .premium-card .premium-overlay {
+            display: none;
+        }
+        /* Затемняющий оверлей - НЕ перекрывает текст */
+        .premium-card .premium-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(6px);
+            z-index: 0; /* Уменьшаем z-index, чтобы текст был сверху */
+            border-radius: 16px;
+        }
+
+        /* Контент поверх оверлея */
+        .premium-card:not(.opened) .premium-card-content {
+            position: relative;
+            z-index: 5;
+        }
+
+        /* Кнопка поверх всего */
+        .premium-card .unlock-btn,
+        .premium-card .opened-label {
+            position: relative;
+            z-index: 10;
+        }
+
+        @keyframes modalAppear {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .premium-header {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .premium-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <div class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-title">ОСНОВНОЕ</div>
+                <a href="index.html" class="sidebar-item">
+                    <img src="images/profile.png" alt="Профиль" class="sidebar-icon">
+                    <span>Профиль</span>
+                </a>
+                <a href="notifications.html" class="sidebar-item" style="position: relative;">
+                    <img src="images/notifications.png" alt="Уведомления" class="sidebar-icon">
+                    <span>Уведомления</span>
+                    <span class="notification-badge" id="sidebar-notification-badge" style="display: none;"></span>
+                </a>
+                <a href="privacy.html" class="sidebar-item">
+                    <img src="images/privacy.png" alt="Конфиденциальность" class="sidebar-icon">
+                    <span>Конфиденциальность</span>
+                </a>
+                <div class="sidebar-item" id="logout-btn">
+                    <img src="images/logout.png" alt="Выйти" class="sidebar-icon">
+                    <span>Выйти</span>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">СОЦИАЛЬНОЕ</div>
+                <a href="challenges.html" class="sidebar-item">
+                    <img src="images/challenges.png" alt="Челленджи" class="sidebar-icon">
+                    <span>Челленджи</span>
+                </a>
+                <a href="achievements.html" class="sidebar-item">
+                    <img src="images/achievements.png" alt="Достижения" class="sidebar-icon">
+                    <span>Достижения</span>
+                </a>
+                <a href="leaderboard.html" class="sidebar-item">
+                    <img src="images/leaderboard.png" alt="Лидеры" class="sidebar-icon">
+                    <span>Лидеры</span>
+                </a>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">МАГАЗИН</div>
+                <a href="shop.html" class="sidebar-item">
+                    <img src="images/shop.png" alt="Магазин" class="sidebar-icon">
+                    <span>Магазин</span>
+                </a>
+                <a href="premium.html" class="sidebar-item">
+                    <img src="images/premium.png" alt="Премиум" class="sidebar-icon">
+                    <span>Премиум</span>
+                </a>
+                <a href="transactions.html" class="sidebar-item">
+                    <img src="images/transactions.png" alt="Все операции" class="sidebar-icon">
+                    <span>Все операции</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="header">
+                <div class="header-top">
+                    <a href="index.html" class="logo">
+                        <img src="images/logo.png" alt="logo">
+                    </a>
+                    <div class="burger-menu" id="burger-menu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+                <div class="search-bar" id="global-search">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="global-search-input" placeholder="Поиск премиум контента...">
+                    <div class="search-results-dropdown" id="search-results" style="display: none;"></div>
+                </div>
+                <div class="user-menu">
+                    <div class="points-header">
+                        <i class="fas fa-star" style="color: #f59e0b;"></i>
+                        <span id="header-points" class="user-points">0</span>
+                    </div>
+                    <a href="index.html" class="user-avatar-link" id="header-avatar-link">
+                        <div class="user-avatar-header" id="header-avatar">
+                            <img src="images/man.png" alt="avatar" class="avatar-img">
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="premium-header">
+                <h1>
+                    <i class="fas fa-crown"></i>
+                    Премиум контент
+                </h1>
+                <div class="points-display">
+                    <i class="fas fa-star"></i>
+                    <span id="user-points" class="user-points">0</span>
+                </div>
+            </div>
+
+            <div class="opened-section">
+                <h2>
+                    <i class="fas fa-unlock-alt"></i>
+                    Мой премиум контент
+                </h2>
+                <div id="opened-content" class="opened-content"></div>
+            </div>
+
+            <div id="premium-container"></div>
+        </div>
+    </div>
+    <!-- ВЫЕЗЖАЮЩЕЕ МЕНЮ СВЕРХУ ВНИЗ НА ВЕСЬ ЭКРАН -->
+    <div class="mobile-menu-full" id="mobile-menu-full">
+        <div class="mobile-menu-header">
+            <div class="mobile-menu-logo">
+                <img src="images/logo.png" alt="logo">
+            </div>
+            <div class="mobile-menu-close" id="mobile-menu-close">
+                <i class="fas fa-times"></i>
+            </div>
+        </div>
+        <div class="mobile-menu-items">
+            <div class="mobile-menu-section">
+                <div class="mobile-menu-section-title">ОСНОВНОЕ</div>
+                <a href="index.html" class="mobile-menu-item">
+                    <img src="images/profile.png" alt="Профиль" class="mobile-menu-icon">
+                    <span>Профиль</span>
+                </a>
+                <a href="notifications.html" class="mobile-menu-item" style="position: relative;">
+                    <img src="images/notifications.png" alt="Уведомления" class="mobile-menu-icon">
+                    <span>Уведомления</span>
+                    <span class="mobile-notification-badge" id="mobile-notification-badge" style="display: none;"></span>
+                </a>
+                <a href="privacy.html" class="mobile-menu-item">
+                    <img src="images/privacy.png" alt="Конфиденциальность" class="mobile-menu-icon">
+                    <span>Конфиденциальность</span>
+                </a>
+                <div class="mobile-menu-item" id="mobile-logout-btn">
+                    <img src="images/logout.png" alt="Выйти" class="mobile-menu-icon">
+                    <span>Выйти</span>
+                </div>
+            </div>
+            <div class="mobile-menu-section">
+                <div class="mobile-menu-section-title">СОЦИАЛЬНОЕ</div>
+                <a href="challenges.html" class="mobile-menu-item">
+                    <img src="images/challenges.png" alt="Челленджи" class="mobile-menu-icon">
+                    <span>Челленджи</span>
+                </a>
+                <a href="achievements.html" class="mobile-menu-item">
+                    <img src="images/achievements.png" alt="Достижения" class="mobile-menu-icon">
+                    <span>Достижения</span>
+                </a>
+                <a href="leaderboard.html" class="mobile-menu-item">
+                    <img src="images/leaderboard.png" alt="Лидеры" class="mobile-menu-icon">
+                    <span>Лидеры</span>
+                </a>
+            </div>
+            <div class="mobile-menu-section">
+                <div class="mobile-menu-section-title">МАГАЗИН</div>
+                <a href="shop.html" class="mobile-menu-item">
+                    <img src="images/shop.png" alt="Магазин" class="mobile-menu-icon">
+                    <span>Магазин</span>
+                </a>
+                <a href="premium.html" class="mobile-menu-item">
+                    <img src="images/premium.png" alt="Премиум" class="mobile-menu-icon">
+                    <span>Премиум</span>
+                </a>
+                <a href="transactions.html" class="mobile-menu-item">
+                    <img src="images/transactions.png" alt="Все операции" class="mobile-menu-icon">
+                    <span>Все операции</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="content-modal" style="display: none;">
+        <div class="modal">
+            <div class="modal-content">
+                <h2 id="content-title"></h2>
+                <p id="content-description"></p>
+                <div id="content-frame"></div>
+                <button class="btn-primary" onclick="document.getElementById('content-modal').style.display='none'">
+                    Закрыть
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/header.js"></script>
+    <script src="js/fitness-db.js"></script>
+    <script src="js/database.js"></script>
+    <script src="js/premium.js"></script>
+</body>
+</html>

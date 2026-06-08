@@ -1,0 +1,299 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>TerriFIT - Награды</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="images/favicon.png">
+</head>
+<body>
+    <div class="dashboard">
+        <div class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-title">ОСНОВНОЕ</div>
+                <a href="index.html" class="sidebar-item">
+                    <img src="images/profile.png" alt="Профиль" class="sidebar-icon">
+                    <span>Профиль</span>
+                </a>
+                <a href="notifications.html" class="sidebar-item" style="position: relative;">
+                    <img src="images/notifications.png" alt="Уведомления" class="sidebar-icon">
+                    <span>Уведомления</span>
+                    <span class="notification-badge" id="sidebar-notification-badge" style="display: none;"></span>
+                </a>
+                <a href="privacy.html" class="sidebar-item">
+                    <img src="images/privacy.png" alt="Конфиденциальность" class="sidebar-icon">
+                    <span>Конфиденциальность</span>
+                </a>
+                <div class="sidebar-item" id="logout-btn">
+                    <img src="images/logout.png" alt="Выйти" class="sidebar-icon">
+                    <span>Выйти</span>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">СОЦИАЛЬНОЕ</div>
+                <a href="challenges.html" class="sidebar-item">
+                    <img src="images/challenges.png" alt="Челленджи" class="sidebar-icon">
+                    <span>Челленджи</span>
+                </a>
+                <a href="achievements.html" class="sidebar-item">
+                    <img src="images/achievements.png" alt="Достижения" class="sidebar-icon">
+                    <span>Достижения</span>
+                </a>
+                <a href="leaderboard.html" class="sidebar-item">
+                    <img src="images/leaderboard.png" alt="Лидеры" class="sidebar-icon">
+                    <span>Лидеры</span>
+                </a>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">МАГАЗИН</div>
+                <a href="shop.html" class="sidebar-item">
+                    <img src="images/shop.png" alt="Магазин" class="sidebar-icon">
+                    <span>Магазин</span>
+                </a>
+                <a href="premium.html" class="sidebar-item">
+                    <img src="images/premium.png" alt="Премиум" class="sidebar-icon">
+                    <span>Премиум</span>
+                </a>
+                <a href="transactions.html" class="sidebar-item">
+                    <img src="images/transactions.png" alt="Все операции" class="sidebar-icon">
+                    <span>Все операции</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="header">
+                <div class="header-top">
+                    <a href="index.html" class="logo">
+                        <img src="images/logo.png" alt="logo">
+                    </a>
+                    <div class="burger-menu" id="burger-menu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="achievement-search" placeholder="Поиск по ID или названию..." onkeypress="handleSearchKeyPress(event)">
+                </div>
+
+                <div class="user-menu">
+                    <div class="points-header">
+                        <i class="fas fa-star" style="color: #f59e0b;"></i>
+                        <span id="header-points" class="user-points">0</span>
+                    </div>
+                    <a href="index.html" class="user-avatar-link" id="header-avatar-link">
+                        <div class="user-avatar-header" id="header-avatar">
+                            <img src="images/man.png" alt="avatar" class="avatar-img">
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- ВЫЕЗЖАЮЩЕЕ МЕНЮ СВЕРХУ ВНИЗ НА ВЕСЬ ЭКРАН -->
+            <div class="mobile-menu-full" id="mobile-menu-full">
+                <div class="mobile-menu-header">
+                    <div class="mobile-menu-logo">
+                        <img src="images/logo.png" alt="logo">
+                    </div>
+                    <div class="mobile-menu-close" id="mobile-menu-close">
+                        <i class="fas fa-times"></i>
+                    </div>
+                </div>
+                <div class="mobile-menu-items">
+                    <div class="mobile-menu-section">
+                        <div class="mobile-menu-section-title">ОСНОВНОЕ</div>
+                        <a href="index.html" class="mobile-menu-item">
+                            <img src="images/profile.png" alt="Профиль" class="mobile-menu-icon">
+                            <span>Профиль</span>
+                        </a>
+                        <a href="notifications.html" class="mobile-menu-item" style="position: relative;">
+                            <img src="images/notifications.png" alt="Уведомления" class="mobile-menu-icon">
+                            <span>Уведомления</span>
+                            <span class="mobile-notification-badge" id="mobile-notification-badge" style="display: none;"></span>
+                        </a>
+                        <a href="privacy.html" class="mobile-menu-item">
+                            <img src="images/privacy.png" alt="Конфиденциальность" class="mobile-menu-icon">
+                            <span>Конфиденциальность</span>
+                        </a>
+                        <div class="mobile-menu-item" id="mobile-logout-btn">
+                            <img src="images/logout.png" alt="Выйти" class="mobile-menu-icon">
+                            <span>Выйти</span>
+                        </div>
+                    </div>
+                    <div class="mobile-menu-section">
+                        <div class="mobile-menu-section-title">СОЦИАЛЬНОЕ</div>
+                        <a href="challenges.html" class="mobile-menu-item">
+                            <img src="images/challenges.png" alt="Челленджи" class="mobile-menu-icon">
+                            <span>Челленджи</span>
+                        </a>
+                        <a href="achievements.html" class="mobile-menu-item">
+                            <img src="images/achievements.png" alt="Достижения" class="mobile-menu-icon">
+                            <span>Достижения</span>
+                        </a>
+                        <a href="leaderboard.html" class="mobile-menu-item">
+                            <img src="images/leaderboard.png" alt="Лидеры" class="mobile-menu-icon">
+                            <span>Лидеры</span>
+                        </a>
+                    </div>
+                    <div class="mobile-menu-section">
+                        <div class="mobile-menu-section-title">МАГАЗИН</div>
+                        <a href="shop.html" class="mobile-menu-item">
+                            <img src="images/shop.png" alt="Магазин" class="mobile-menu-icon">
+                            <span>Магазин</span>
+                        </a>
+                        <a href="premium.html" class="mobile-menu-item">
+                            <img src="images/premium.png" alt="Премиум" class="mobile-menu-icon">
+                            <span>Премиум</span>
+                        </a>
+                        <a href="transactions.html" class="mobile-menu-item">
+                            <img src="images/transactions.png" alt="Все операции" class="mobile-menu-icon">
+                            <span>Все операции</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="achievements-header">
+                <h1 class="page-title">🏆 Коллекция достижений</h1>
+                <div class="achievements-stats">
+                    <div class="stat-chip" id="total-earned">
+                        <i class="fas fa-star"></i>
+                        <span id="earned-count">0</span>
+                    </div>
+
+                    <div class="stat-chip points-chip">
+                        <i class="fas fa-trophy"></i>
+                        <span>Всего очков: <strong id="total-points">0</strong></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="achievements-category">
+                <div class="category-header">
+                    <h2><i class="fas fa-star" style="color: #f59e0b;"></i> Мои награды</h2>
+                    <span class="category-count" id="my-achievements-count">0</span>
+                </div>
+
+                <div class="achievements-carousel-container">
+                    <button class="carousel-btn prev-btn" id="my-prev">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+
+                    <div class="achievements-carousel" id="my-achievements-carousel">
+                    </div>
+
+                    <button class="carousel-btn next-btn" id="my-next">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="achievements-category">
+                <div class="category-header">
+                    <h2><i class="fas fa-circle" style="color: #94a3b8;"></i> Обычные</h2>
+                    <span class="category-count" id="common-count">12</span>
+                </div>
+
+                <div class="achievements-carousel-container">
+                    <button class="carousel-btn prev-btn" id="common-prev">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+
+                    <div class="achievements-carousel" id="common-achievements-carousel">
+                    </div>
+
+                    <button class="carousel-btn next-btn" id="common-next">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="achievements-category">
+                <div class="category-header">
+                    <h2><i class="fas fa-circle" style="color: #8b5cf6;"></i> Редкие</h2>
+                    <span class="category-count" id="rare-count">8</span>
+                </div>
+
+                <div class="achievements-carousel-container">
+                    <button class="carousel-btn prev-btn" id="rare-prev">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+
+                    <div class="achievements-carousel" id="rare-achievements-carousel">
+                    </div>
+
+                    <button class="carousel-btn next-btn" id="rare-next">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="achievements-category">
+                <div class="category-header">
+                    <h2><i class="fas fa-circle" style="color: #f59e0b;"></i> Супер редкие</h2>
+                    <span class="category-count" id="super-count">6</span>
+                </div>
+
+                <div class="achievements-carousel-container">
+                    <button class="carousel-btn prev-btn" id="super-prev">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+
+                    <div class="achievements-carousel" id="super-achievements-carousel">
+                    </div>
+
+                    <button class="carousel-btn next-btn" id="super-next">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="achievement-modal" style="display: none;">
+        <div class="modal achievement-modal">
+            <button class="modal-close" id="close-modal">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <div class="achievement-card">
+                <div class="achievement-card-image" id="modal-image">
+                    <img src="" alt="" id="modal-img">
+                </div>
+
+                <div class="achievement-card-rarity" id="modal-rarity-badge">
+                    <span id="modal-rarity"></span>
+                </div>
+                <h2 class="achievement-card-title" id="modal-title"></h2>
+
+                <div class="achievement-card-id">
+                    <span class="id-label">Уникальный номер:</span>
+                    <span class="id-value" id="modal-unique-id"></span>
+                </div>
+
+                <div class="achievement-card-date" id="modal-date-container">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span id="modal-date"></span>
+                </div>
+
+                <div class="achievement-card-description" id="modal-description"></div>
+                <div class="achievement-card-points" id="modal-points-container">
+                    <i class="fas fa-star"></i>
+                    <span>Очки: <strong id="modal-points">0</strong></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/header.js"></script>
+    <script src="js/fitness-db.js"></script>
+    <script src="js/database.js"></script>
+    <script src="js/achievements.js"></script>
+</body>
+</html>

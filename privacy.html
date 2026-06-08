@@ -1,0 +1,595 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>TerriFIT - Конфиденциальность</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="images/favicon.png">
+    <style>
+        .privacy-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(16,10,66, 0.2);
+            border-radius: 16px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .privacy-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+            .privacy-header h1 {
+                font-size: 28px;
+                background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+            }
+
+        /* Кнопка "Назад" - десктопная версия */
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: rgba(161, 239, 252, 0.75);
+            color: rgba(30, 41, 59);
+            border: 1px solid rgba(132, 234, 251, 0.8);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+            .back-btn:hover {
+                background: rgba(59, 130, 246, 0.3);
+                color: white;
+            }
+
+        /* Мобильная версия кнопки "Назад" (до 768px) */
+        @media (max-width: 768px) {
+            .back-btn {
+                padding: 8px 16px;
+                font-size: 13px;
+                gap: 6px;
+            }
+
+                .back-btn i {
+                    font-size: 12px;
+                }
+        }
+
+        /* Маленькая мобильная версия (до 480px) */
+        @media (max-width: 480px) {
+            .back-btn {
+                padding: 6px 12px;
+                font-size: 12px;
+                gap: 5px;
+                border-radius: 16px;
+            }
+
+                .back-btn i {
+                    font-size: 10px;
+                }
+
+            .privacy-header {
+                gap: 10px;
+                margin-bottom: 20px;
+                flex-wrap: wrap;
+            }
+
+                .privacy-header h1 {
+                    font-size: 22px;
+                }
+        }
+
+        .privacy-option {
+            background: rgba(19,14,72,0.5);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            transition: all 0.3s;
+        }
+
+            .privacy-option:hover {
+                border-color: #3b82f6;
+                transform: translateX(5px);
+            }
+
+        .privacy-option-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+            .privacy-option-header i {
+                font-size: 24px;
+                color: #3b82f6;
+                width: 40px;
+                text-align: center;
+            }
+
+            .privacy-option-header h3 {
+                font-size: 18px;
+                color: #f8fafc;
+            }
+
+        .privacy-option-description {
+            color: #94a3b8;
+            font-size: 14px;
+            margin-bottom: 15px;
+            padding-left: 55px;
+        }
+
+        .privacy-toggle {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding-left: 55px;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+        }
+
+            .toggle-switch input {
+                opacity: 0;
+                width: 0;
+                height: 0;
+            }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.1);
+            transition: .3s;
+            border-radius: 30px;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+
+            .toggle-slider:before {
+                position: absolute;
+                content: "";
+                height: 24px;
+                width: 24px;
+                left: 3px;
+                bottom: 2px;
+                background-color: #94a3b8;
+                transition: .3s;
+                border-radius: 50%;
+            }
+
+        input:checked + .toggle-slider {
+            background-color: rgba(59, 130, 246, 0.3);
+        }
+
+            input:checked + .toggle-slider:before {
+                transform: translateX(30px);
+                background-color: #3b82f6;
+            }
+
+        .privacy-note {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 30px;
+            color: #f59e0b;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+            .privacy-note i {
+                font-size: 20px;
+            }
+
+        .save-privacy-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+
+            .save-privacy-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 5px 20px rgba(59, 130, 246, 0.3);
+            }
+
+        .display-name-input {
+            background: rgba(19,14,72,0.5);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 8px;
+            padding: 10px 15px;
+            color: #f8fafc;
+            font-size: 14px;
+            width: 200px;
+        }
+
+            .display-name-input:focus {
+                outline: none;
+                border-color: #3b82f6;
+            }
+
+        .current-settings {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(139, 92, 246, 0.1);
+            border-radius: 12px;
+            border: 1px solid #8b5cf6;
+        }
+
+        .current-settings-title {
+            font-size: 14px;
+            color: #8b5cf6;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <div class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-title">ОСНОВНОЕ</div>
+                <a href="index.html" class="sidebar-item">
+                    <img src="images/profile.png" alt="Профиль" class="sidebar-icon">
+                    <span>Профиль</span>
+                </a>
+                <a href="notifications.html" class="sidebar-item" style="position: relative;">
+                    <img src="images/notifications.png" alt="Уведомления" class="sidebar-icon">
+                    <span>Уведомления</span>
+                    <span class="notification-badge" id="sidebar-notification-badge" style="display: none;"></span>
+                </a>
+                <a href="privacy.html" class="sidebar-item">
+                    <img src="images/privacy.png" alt="Конфиденциальность" class="sidebar-icon">
+                    <span>Конфиденциальность</span>
+                </a>
+                <div class="sidebar-item" id="logout-btn">
+                    <img src="images/logout.png" alt="Выйти" class="sidebar-icon">
+                    <span>Выйти</span>
+                </div>
+            </div>
+            <div class="sidebar-section">
+                <div class="sidebar-title">СОЦИАЛЬНОЕ</div>
+                <a href="challenges.html" class="sidebar-item">
+                    <img src="images/challenges.png" alt="Челленджи" class="sidebar-icon">
+                    <span>Челленджи</span>
+                </a>
+                <a href="achievements.html" class="sidebar-item">
+                    <img src="images/achievements.png" alt="Достижения" class="sidebar-icon">
+                    <span>Достижения</span>
+                </a>
+                <a href="leaderboard.html" class="sidebar-item">
+                    <img src="images/leaderboard.png" alt="Лидеры" class="sidebar-icon">
+                    <span>Лидеры</span>
+                </a>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">МАГАЗИН</div>
+                <a href="shop.html" class="sidebar-item">
+                    <img src="images/shop.png" alt="Магазин" class="sidebar-icon">
+                    <span>Магазин</span>
+                </a>
+                <a href="premium.html" class="sidebar-item">
+                    <img src="images/premium.png" alt="Премиум" class="sidebar-icon">
+                    <span>Премиум</span>
+                </a>
+                <a href="transactions.html" class="sidebar-item">
+                    <img src="images/transactions.png" alt="Все операции" class="sidebar-icon">
+                    <span>Все операции</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="header">
+                <div class="header-top">
+                    <a href="index.html" class="logo">
+                        <img src="images/logo.png" alt="logo">
+                    </a>
+                    <div class="burger-menu" id="burger-menu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+                <div class="user-menu">
+                    <div class="points-header">
+                        <i class="fas fa-star" style="color: #f59e0b;"></i>
+                        <span id="header-points" class="user-points">0</span>
+                    </div>
+                    <a href="index.html" class="user-avatar-link" id="header-avatar-link">
+                        <div class="user-avatar-header" id="header-avatar">
+                            <img src="images/man.png" alt="avatar" class="avatar-img">
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <!-- ВЫЕЗЖАЮЩЕЕ МЕНЮ СВЕРХУ ВНИЗ НА ВЕСЬ ЭКРАН -->
+            <div class="mobile-menu-full" id="mobile-menu-full">
+                <div class="mobile-menu-header">
+                    <div class="mobile-menu-logo">
+                        <img src="images/logo.png" alt="logo">
+                    </div>
+                    <div class="mobile-menu-close" id="mobile-menu-close">
+                        <i class="fas fa-times"></i>
+                    </div>
+                </div>
+                <div class="mobile-menu-items">
+                    <div class="mobile-menu-section">
+                        <div class="mobile-menu-section-title">ОСНОВНОЕ</div>
+                        <a href="index.html" class="mobile-menu-item">
+                            <img src="images/profile.png" alt="Профиль" class="mobile-menu-icon">
+                            <span>Профиль</span>
+                        </a>
+                        <a href="notifications.html" class="mobile-menu-item" style="position: relative;">
+                            <img src="images/notifications.png" alt="Уведомления" class="mobile-menu-icon">
+                            <span>Уведомления</span>
+                            <span class="mobile-notification-badge" id="mobile-notification-badge" style="display: none;"></span>
+                        </a>
+                        <a href="privacy.html" class="mobile-menu-item">
+                            <img src="images/privacy.png" alt="Конфиденциальность" class="mobile-menu-icon">
+                            <span>Конфиденциальность</span>
+                        </a>
+                        <div class="mobile-menu-item" id="mobile-logout-btn">
+                            <img src="images/logout.png" alt="Выйти" class="mobile-menu-icon">
+                            <span>Выйти</span>
+                        </div>
+                    </div>
+                    <div class="mobile-menu-section">
+                        <div class="mobile-menu-section-title">СОЦИАЛЬНОЕ</div>
+                        <a href="challenges.html" class="mobile-menu-item">
+                            <img src="images/challenges.png" alt="Челленджи" class="mobile-menu-icon">
+                            <span>Челленджи</span>
+                        </a>
+                        <a href="achievements.html" class="mobile-menu-item">
+                            <img src="images/achievements.png" alt="Достижения" class="mobile-menu-icon">
+                            <span>Достижения</span>
+                        </a>
+                        <a href="leaderboard.html" class="mobile-menu-item">
+                            <img src="images/leaderboard.png" alt="Лидеры" class="mobile-menu-icon">
+                            <span>Лидеры</span>
+                        </a>
+                    </div>
+                    <div class="mobile-menu-section">
+                        <div class="mobile-menu-section-title">МАГАЗИН</div>
+                        <a href="shop.html" class="mobile-menu-item">
+                            <img src="images/shop.png" alt="Магазин" class="mobile-menu-icon">
+                            <span>Магазин</span>
+                        </a>
+                        <a href="premium.html" class="mobile-menu-item">
+                            <img src="images/premium.png" alt="Премиум" class="mobile-menu-icon">
+                            <span>Премиум</span>
+                        </a>
+                        <a href="transactions.html" class="mobile-menu-item">
+                            <img src="images/transactions.png" alt="Все операции" class="mobile-menu-icon">
+                            <span>Все операции</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="privacy-container">
+                <div class="privacy-header">
+                    <button class="back-btn" id="back-btn">
+                        <i class="fas fa-arrow-left"></i> Назад
+                    </button>
+                    <h1>Конфиденциальность</h1>
+                </div>
+
+                <div class="privacy-option">
+                    <div class="privacy-option-header">
+                        <i class="fas fa-user-secret"></i>
+                        <h3>Приватный профиль</h3>
+                    </div>
+                    <div class="privacy-option-description">
+                        Скрыть ваш профиль из таблицы лидеров и поиска. Другие пользователи не смогут видеть вашу статистику и достижения.
+                    </div>
+                    <div class="privacy-toggle">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="private-profile">
+                            <span class="toggle-slider"></span>
+                        </label>
+                        <span class="toggle-label" id="private-label">Выключено</span>
+                    </div>
+                </div>
+
+                <div class="privacy-option">
+                    <div class="privacy-option-header">
+                        <i class="fas fa-eye-slash"></i>
+                        <h3>Скрыть реальное имя</h3>
+                    </div>
+                    <div class="privacy-option-description">
+                        Показывать ваш логин или псевдоним вместо реального имени в таблице лидеров.
+                    </div>
+                    <div class="privacy-toggle">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="hide-real-name">
+                            <span class="toggle-slider"></span>
+                        </label>
+                        <span class="toggle-label" id="name-label">Выключено</span>
+                    </div>
+                </div>
+
+                <div class="privacy-option">
+                    <div class="privacy-option-header">
+                        <i class="fas fa-tag"></i>
+                        <h3>Отображаемое имя</h3>
+                    </div>
+                    <div class="privacy-option-description">
+                        Если скрыто реальное имя, здесь можно указать псевдоним, который будет виден другим пользователям.
+                    </div>
+                    <div style="padding-left: 55px;">
+                        <input type="text" class="display-name-input" id="display-name" placeholder="Ваш псевдоним">
+                    </div>
+                </div>
+
+                <div class="current-settings" id="current-settings" style="display: none;">
+                    <div class="current-settings-title">
+                        <i class="fas fa-info-circle"></i> Текущие настройки
+                    </div>
+                    <div id="settings-display"></div>
+                </div>
+
+                <div class="privacy-note">
+                    <i class="fas fa-info-circle"></i>
+                    <span>Изменения вступят в силу сразу после сохранения. В таблице лидеров всегда отображаются ваш уровень, очки и рейтинг (кроме приватного профиля).</span>
+                </div>
+
+                <button class="save-privacy-btn" id="save-privacy">
+                    <i class="fas fa-save"></i>
+                    Сохранить настройки
+                </button>
+            </div>
+        </div>
+    </div>
+    <script src="js/header.js"></script>
+    <script src="js/fitness-db.js"></script>
+    <script src="js/database.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const currentUser = window.fitnessDB.getCurrentUser();
+            if (!currentUser) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const user = window.fitnessDB.getUserById(currentUser.id);
+
+            user.privacy = user.privacy || {
+                privateProfile: false,
+                hideRealName: false,
+                displayName: ''
+            };
+
+            document.getElementById('private-profile').checked = user.privacy.privateProfile;
+            document.getElementById('hide-real-name').checked = user.privacy.hideRealName;
+            document.getElementById('display-name').value = user.privacy.displayName || '';
+
+            updateToggleLabels();
+            updateCurrentSettings();
+
+            function updateToggleLabels() {
+                document.getElementById('private-label').textContent =
+                    document.getElementById('private-profile').checked ? 'Включено' : 'Выключено';
+                document.getElementById('name-label').textContent =
+                    document.getElementById('hide-real-name').checked ? 'Включено' : 'Выключено';
+            }
+
+            function updateCurrentSettings() {
+                const settingsDiv = document.getElementById('current-settings');
+                const settingsDisplay = document.getElementById('settings-display');
+
+                const privateProfile = document.getElementById('private-profile').checked;
+                const hideRealName = document.getElementById('hide-real-name').checked;
+                const displayName = document.getElementById('display-name').value;
+
+                let settingsText = '';
+                if (privateProfile) {
+                    settingsText += '🔒 Профиль скрыт';
+                } else {
+                    settingsText += '👤 Профиль публичный';
+                }
+
+                if (hideRealName) {
+                    settingsText += ` | Имя скрыто, отображается: "${displayName || user.username}"`;
+                }
+
+                if (settingsText) {
+                    settingsDisplay.textContent = settingsText;
+                    settingsDiv.style.display = 'block';
+                } else {
+                    settingsDiv.style.display = 'none';
+                }
+            }
+
+            document.querySelectorAll('.toggle-switch input').forEach(toggle => {
+                toggle.addEventListener('change', () => {
+                    updateToggleLabels();
+                    updateCurrentSettings();
+                });
+            });
+
+            document.getElementById('display-name').addEventListener('input', updateCurrentSettings);
+
+            document.getElementById('save-privacy').addEventListener('click', function () {
+                user.privacy = {
+                    privateProfile: document.getElementById('private-profile').checked,
+                    hideRealName: document.getElementById('hide-real-name').checked,
+                    displayName: document.getElementById('display-name').value.trim()
+                };
+
+                window.fitnessDB.updateUser(user.id, { privacy: user.privacy });
+
+                const btn = this;
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check"></i> Сохранено!';
+                btn.style.background = '#10b981';
+
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.style.background = 'linear-gradient(135deg, #3b82f6, #8b5cf6)';
+                }, 2000);
+
+                updateCurrentSettings();
+            });
+
+            document.getElementById('logout-btn').addEventListener('click', (e) => {
+                e.preventDefault();
+                window.fitnessDB.logout();
+                window.location.href = 'login.html';
+            });
+
+            // Кнопка "Назад" - для десктопа и мобилки
+            const backBtn = document.getElementById('back-btn');
+            if (backBtn) {
+                backBtn.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    // Проверяем, откуда пришли через sessionStorage
+                    const fromPage = sessionStorage.getItem('privacyFromPage');
+                    if (fromPage === 'leaderboard') {
+                        sessionStorage.removeItem('privacyFromPage');
+                        window.location.href = 'leaderboard.html';
+                    } else if (fromPage === 'index') {
+                        sessionStorage.removeItem('privacyFromPage');
+                        window.location.href = 'index.html';
+                    } else if (document.referrer && document.referrer.includes(window.location.host)) {
+                        window.history.back();
+                    } else {
+                        window.location.href = 'index.html';
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
